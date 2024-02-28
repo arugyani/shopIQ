@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "description": "shopIQ",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arugyani/shopIQ.git"
+  },
+  "keywords": [
+    "shopIQ"
+  ],
+  "author": "Abhik, Aru, Divyam, Junseok, Prajwal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arugyani/shopIQ/issues"
+  },
+  "homepage": "https://github.com/arugyani/shopIQ#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
