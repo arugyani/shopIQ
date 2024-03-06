@@ -1,0 +1,1 @@
+Utilities are helper functions or modules that provide a set of tools or methods to perform common, often repeated tasks across your application.

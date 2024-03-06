@@ -1,0 +1,1 @@
+Routes define the endpoints at which requests can be received and how those requests should be handled. Each route can have one or more handler functions, which are executed when the route is matched. Routes are defined by associating HTTP methods (such as GET, POST, PUT, DELETE, etc.) with URL paths, along with the logic to execute when those routes are hit.

@@ -1,0 +1,1 @@
+ Services typically contain modules or classes that define the business logic of your application. The purpose of the services folder is to encapsulate the core functionalities and business rules of your application.
