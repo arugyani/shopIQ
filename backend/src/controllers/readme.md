@@ -1,1 +1,0 @@
-Controllers process the incoming requests, interact with models to retrieve or modify data, and decide how to respond to the client (e.g., rendering a view or returning JSON data). They help to keep the route definitions clean and focused on routing rather than on business logic.
