@@ -8,3 +8,9 @@ Ensure you have Docker properly installed on your machine before using the follo
 docker build -t shopiq_backend .
 docker run -d -p 8090:5000 shopiq_backend
 ```
+
+# To run in dev environemt
+```bash
+npm install
+npm run test
+```
