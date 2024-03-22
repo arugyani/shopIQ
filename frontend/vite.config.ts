@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/shopIQ/",
+  base: "https://arugyani.github.io/shopIQ/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
