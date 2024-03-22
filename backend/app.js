@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
 app.use('/handleFilters', handleFiltersRoute);
 app.use('/recommendations', recommendationRoute);
 
-app
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
