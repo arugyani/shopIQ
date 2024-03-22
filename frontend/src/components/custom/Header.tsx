@@ -26,10 +26,10 @@ const team = [
 
 const Header = () => {
   return (
-    <nav className='bg-white flex flex-row justify-between items-center py-3 border-b border-gray-400'>
-      <img src={logo} className='logo w-147px' alt='Shop IQ Logo' />
-      <h3 className='text-2xl font-thin tracking-tight'>
-        By{" "}
+    <nav className='bg-white flex flex-col sm:flex-row justify-between items-center py-3 border-b border-gray-400'>
+      <img src={logo} className='logo w-32 md:w-32' alt='Shop IQ Logo' />
+      <h3 className='text-xl sm:text-2xl font-thin tracking-tight text-center sm:text-left'>
+        <span className='hidden sm:inline'>By </span>
         {team.map((person, index) => (
           <Fragment key={index}>
             <a href={person.linkedin} className='link'>
