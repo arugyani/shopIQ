@@ -9,10 +9,17 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+const handleFiltersRoute = require('./src/routes/handleFilterRoute');
+const recommendationRoute = require('./src/routes/recommendationRoute');
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.use('/handleFilters', handleFiltersRoute);
+app.use('/recommendations', recommendationRoute);
+
+app
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
