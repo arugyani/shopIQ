@@ -1,43 +1,43 @@
 {
   "response": [
     {
-      "question": "What will you primarily use the camera for?",
-      "answers": ["Sports", "Travel", "Portraits", "General photography"],
-      "multipleAnswers": false
-    },
-    {
-      "question": "How important is camera size to you?",
-      "answers": [
-        "Very important",
-        "Somewhat important",
-        "Not important",
-        "No preference"
-      ],
-      "multipleAnswers": false
-    },
-    {
-      "question": "What is your experience level with cameras?",
-      "answers": ["Beginner", "Intermediate", "Advanced", "Professional"],
-      "multipleAnswers": false
-    },
-    {
-      "question": "What features are important to you? (Choose any that apply)",
-      "answers": [
-        "High frame rate",
-        "Waterproof",
-        "Easy to use",
-        "Long battery life"
-      ],
+      "question": "What's your primary use for the TV?",
+      "answers": ["Movies", "Gaming", "General TV Shows", "Sports"],
       "multipleAnswers": true
     },
     {
-      "question": "What is your budget range?",
-      "answers": ["Under $200", "$200 - $400", "$400 - $600", "Above $600"],
+      "question": "How important is image quality to you?",
+      "answers": [
+        "Very Important",
+        "Somewhat Important",
+        "Neutral",
+        "Not Important"
+      ],
       "multipleAnswers": false
     },
     {
-      "question": "Do you prefer a specific brand?",
-      "answers": ["Yes", "No", "No preference", "Not sure"],
+      "question": "What's your preferred TV size?",
+      "answers": ["Below 32\"", "32\" to 49\"", "50\" to 65\"", "Above 65\""],
+      "multipleAnswers": false
+    },
+    {
+      "question": "Do you need a smart TV?",
+      "answers": ["Yes", "No", "Not Sure", "What's a smart TV?"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "What's your budget range?",
+      "answers": ["Below $200", "$200 to $500", "$500 to $1000", "Above $1000"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "How important is brand to you?",
+      "answers": [
+        "Very Important",
+        "Somewhat Important",
+        "Neutral",
+        "Not Important"
+      ],
       "multipleAnswers": false
     }
   ]
