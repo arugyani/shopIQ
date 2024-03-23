@@ -1,0 +1,44 @@
+{
+  "response": [
+    {
+      "question": "What will you primarily use the camera for?",
+      "answers": ["Sports", "Travel", "Portraits", "General photography"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "How important is camera size to you?",
+      "answers": [
+        "Very important",
+        "Somewhat important",
+        "Not important",
+        "No preference"
+      ],
+      "multipleAnswers": false
+    },
+    {
+      "question": "What is your experience level with cameras?",
+      "answers": ["Beginner", "Intermediate", "Advanced", "Professional"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "What features are important to you? (Choose any that apply)",
+      "answers": [
+        "High frame rate",
+        "Waterproof",
+        "Easy to use",
+        "Long battery life"
+      ],
+      "multipleAnswers": true
+    },
+    {
+      "question": "What is your budget range?",
+      "answers": ["Under $200", "$200 - $400", "$400 - $600", "Above $600"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "Do you prefer a specific brand?",
+      "answers": ["Yes", "No", "No preference", "Not sure"],
+      "multipleAnswers": false
+    }
+  ]
+}
