@@ -4,7 +4,7 @@
   "description": "shopIQ",
   "main": "app.js",
   "scripts": {
-    "test": "./node_modules/nodemon/bin/nodemon.js app.js"
+    "start": "./node_modules/nodemon/bin/nodemon.js app.js"
   },
   "repository": {
     "type": "git",
