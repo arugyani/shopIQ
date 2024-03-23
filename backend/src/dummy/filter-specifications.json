@@ -1,0 +1,37 @@
+{
+  "Show only": [],
+  "Brand": ["LG", "Samsung", "Sony"],
+  "Screen Size": ["< 32″", "32 – 40″"],
+  "Display Type": ["LED", "QLED", "OLED"],
+  "Supported Streaming Services": [
+    "Netflix",
+    "YouTube",
+    "Prime Video",
+    "Disney+",
+    "Hulu",
+    "HBO"
+  ],
+  "HDTV Format": ["4K", "1080p"],
+  "Refresh Rate": ["120 Hz", "60 Hz"],
+  "Connectivity": [
+    "HDMI",
+    "USB",
+    "Wi-Fi",
+    "Ethernet",
+    "Optical Audio",
+    "Bluetooth"
+  ],
+  "Color": [],
+  "Country of Manufacture": [],
+  "Depth": [],
+  "Resolution": ["3840 x 2160", "1920 x 1080"],
+  "Width": [],
+  "Assistant Support": ["Amazon Alexa", "Google Assistant"],
+  "Weight": [],
+  "Category": ["Smart TVs", "4K TVs"],
+  "Shipping & returns": ["Free returns", "1-3 day delivery", "Free shipping"],
+  "Discover": [],
+  "Product rating": [],
+  "Condition": ["New items"],
+  "Seller": []
+}
