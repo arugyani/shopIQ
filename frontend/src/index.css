@@ -32,3 +32,9 @@ body,
 .link:hover::after {
   width: 100%;
 }
+
+/* SEARCH BAR */
+.search-bar .focus-visible {
+  --tw-ring-offset-shadow: none;
+  --tw-ring-shadow: none;
+}
