@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer")
 
 const scrapeProductLinks = async (search) => {
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         devtools: true,
         args: ["--lang=en-US"],
     });
@@ -46,7 +46,7 @@ const scrapeProductLinks = async (search) => {
 
 const scrapeProduct = async (link) => {
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         devtools: true,
         args: ["--lang=en-US"],
     });
