@@ -53,5 +53,6 @@ export const questionsAsync = createAsyncThunk(
 export const { setQuestions } = questionSlice.actions;
 
 export const selectQuestions = (state: RootState) => state.questions.questions;
+export const selectStatus = (state: RootState) => state.questions.status;
 
 export default questionSlice.reducer;

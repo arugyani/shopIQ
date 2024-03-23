@@ -1,22 +1,39 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
 
 import { SearchIcon } from "lucide-react";
 import { Input } from "../ui/input";
-import { questionsAsync } from "@/app/features/questionSlice";
+import { LoadingSpinner } from "../ui/LoadingSpinner";
+
+import { questionsAsync, selectStatus } from "@/app/features/questionSlice";
 
 const placeholders = [
-  "I want to buy a cheap sports camera",
+  "Cheap sports camera",
   "What's the best TV for me?",
   "High quality camping gear",
   "Best wireless headphones for jogging",
   "Affordable home office desk ideas",
   "Top-rated gaming PCs under $1000",
   "Best beginner tennis racket",
+  "Lightweight travel backpack",
+  "Powerful blender for smoothies",
+  "Noise-cancelling headphones for work",
+  "Durable smartwatch with fitness tracking",
+  "Compact and portable projector",
+  "High-end mirrorless camera for photography",
+  "Ergonomic office chair for long hours",
+  "Stylish and functional messenger bag",
+  "Smart home security system",
+  "Professional-grade espresso machine",
+  "Ultra-wide curved gaming monitor",
+  "Powerful laptop for video editing",
+  "Versatile multifunctional printer",
 ];
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
+  const status = useAppSelector(selectStatus);
+
   const [query, setQuery] = useState("");
 
   const randomPlaceholder = (): string => {
@@ -37,12 +54,18 @@ const SearchBar = () => {
     dispatch(questionsAsync(query));
   };
 
+  const iconClasses = "text-gray-500 w-5 h-5 mr-2";
+
   return (
     <form
       onSubmit={handleSubmit}
       className='search-bar flex flex-row items-center border border-1 rounded-full px-3'
     >
-      <SearchIcon className='text-gray-500 w-5 h-5 mr-2' />
+      {status === "loading" ? (
+        <LoadingSpinner className={iconClasses} />
+      ) : (
+        <SearchIcon className={iconClasses} />
+      )}
       <Input
         type='text'
         placeholder={`${randomPlaceholder()}...`}
