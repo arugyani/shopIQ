@@ -19,7 +19,7 @@ function App() {
     const handleAddToHistory = () => {
       const historyObjectToAdd = {
         id: "34532465345",
-        name: "Coffee Grinder",
+        name: "Coffee Grinder for Use in an Office",
         svg: "mixer.svg", 
       };
       dispatch(addToHistory(historyObjectToAdd));
