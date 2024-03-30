@@ -41,7 +41,29 @@ const scrapeProductLinks = async (search) => {
     }
 
     console.log(JSON.stringify(productMotherLoad, null, 2));
-    
+
+}
+const scrapeText = async (page, query) => {
+    const output = await page.evaluate((query) => {
+        const span = document.querySelector(query);
+        return span ? span.textContent : null;
+    }, query);
+    return output;
+}
+
+const scrapeTextMap = async (page, query) => { 
+    const output = await page.$$eval(query, spans => {
+        return spans.map(span => span.textContent.trim());
+    });
+    return output
+}
+
+const scrapeImageSrc = async (page) => {
+    const imageUrl = await page.evaluate(() => {
+        const imageElement = document.querySelector('.Xkiaqc.sm3F0e img');
+        return imageElement ? imageElement.src : null;
+    });
+    return imageUrl;
 }
 
 const scrapeProduct = async (link) => {
@@ -56,38 +78,15 @@ const scrapeProduct = async (link) => {
         waitUntil: "networkidle2",
     });
 
-    const productTitle = await page.evaluate(() => {
-        const span = document.querySelector('.sh-t__title');
-        return span ? span.textContent : null;
-    });
+    const productTitle = await scrapeText(page, '.sh-t__title');
+    const prodBullets = await scrapeTextMap(page, '.KgL16d');
+    const prodDesc = await scrapeText(page, '.sh-ds__full-txt');
+    const prodReviews = await scrapeTextMap(page, '.qWf3pf > a > span');
+    const prodPrice = await scrapeText(page, '.g9WBQb');
+    const prodReviewScore = await scrapeText(page, '.uYNZm');
+    const prodNumReviews = await scrapeText(page, '.qIEPib');
+    const prodImgLink = await scrapeImageSrc(page, 'Xkiaqc')
 
-    const prodBullets = await page.$$eval('.KgL16d', spans => {
-        return spans.map(span => span.textContent.trim());
-    });
-
-    const prodDesc = await page.evaluate(() => {
-        const span = document.querySelector('.sh-ds__full-txt');
-        return span ? span.textContent : null;
-    });
-
-    const prodReviews = await page.$$eval('.qWf3pf > a > span', spans => {
-        return spans.map(span => span.textContent.trim());
-    });
-
-    const prodPrice = await page.evaluate(() => {
-        const span = document.querySelector('.g9WBQb');
-        return span ? span.textContent : null;
-    });
-
-    const prodReviewScore = await page.evaluate(() => {
-        const span = document.querySelector('.uYNZm');
-        return span ? span.textContent : null;
-    });
-
-    const prodNumReviews = await page.evaluate(() => {
-        const span = document.querySelector('.qIEPib');
-        return span ? span.textContent : null;
-    });
 
     await browser.close()
 
@@ -99,8 +98,11 @@ const scrapeProduct = async (link) => {
         price: prodPrice,
         reviewScore: prodReviewScore,
         numReviews: prodNumReviews,
+        imgLink: prodImgLink
     };
 
     return prodInfo
+
+
 }
 module.exports = { scrapeProductLinks, scrapeProduct };

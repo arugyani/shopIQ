@@ -14,6 +14,7 @@ const port = 3000;
 
 const searchRouter = require("./src/routes/searchRoutes");
 const recommendationRoute = require("./src/routes/recommendationRoute");
+const productScraper = require("./src/services/scrape_products")
 
 app.use(cors());
 
@@ -28,4 +29,4 @@ app.listen(port, () => {
   console.log(`shopIQ API listening on port ${port} 😎`);
 });
 
-scrapeProductLinks("tv")
+productScraper.scrapeProductLinks("tv")
