@@ -1,0 +1,44 @@
+{
+  "response": [
+    {
+      "question": "What's your primary use for the TV?",
+      "answers": ["Movies", "Gaming", "General TV Shows", "Sports"],
+      "multipleAnswers": true
+    },
+    {
+      "question": "How important is image quality to you?",
+      "answers": [
+        "Very Important",
+        "Somewhat Important",
+        "Neutral",
+        "Not Important"
+      ],
+      "multipleAnswers": false
+    },
+    {
+      "question": "What's your preferred TV size?",
+      "answers": ["Below 32\"", "32\" to 49\"", "50\" to 65\"", "Above 65\""],
+      "multipleAnswers": false
+    },
+    {
+      "question": "Do you need a smart TV?",
+      "answers": ["Yes", "No", "Not Sure", "What's a smart TV?"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "What's your budget range?",
+      "answers": ["Below $200", "$200 to $500", "$500 to $1000", "Above $1000"],
+      "multipleAnswers": false
+    },
+    {
+      "question": "How important is brand to you?",
+      "answers": [
+        "Very Important",
+        "Somewhat Important",
+        "Neutral",
+        "Not Important"
+      ],
+      "multipleAnswers": false
+    }
+  ]
+}
