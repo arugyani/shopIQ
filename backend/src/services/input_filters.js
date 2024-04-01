@@ -1,6 +1,16 @@
 const puppeteer = require("puppeteer");
 const scape_products = require("./scrape_products");
 async function input_filters(browser, page, filtersJson, input, query) {
+  
+  concatenatedString = concatValuesWithNumbers(input);
+  concatenatedString = query + " " + concatenatedString;
+  
+  //await page.type('input[type="search"]', concatenatedString);
+  const inputElement = await page.$('#sh-h-input__root > input.sh-h-input__search-form');
+  await inputElement.type(concatenatedString);
+  await inputElement.press('Enter');
+  await page.waitForNavigation({ waitUntil: 'networkidle0' });
+
   for (const [filterCategory, filterOption] of Object.entries(input)) {
     let found = false;
     const filterHandles = await page.$$(".sh-dr__restricts > div");
@@ -44,5 +54,24 @@ async function input_filters(browser, page, filtersJson, input, query) {
   return productsJSON;
   //return browser;
 }
+
+function concatValuesWithNumbers(filters) {
+  //fumction for getting the number filters and concatenating them
+  let concatenatedString = "";
+  for (const key in filters) {
+    if (filters.hasOwnProperty(key)) {
+      const value = filters[key];
+      if (typeof value === "string") {
+        const numbersInValue = value.match(/\d+/g);
+        if (numbersInValue) {
+          concatenatedString += ` ${key}: ${value}`;
+        }
+      }
+    }
+  }
+  return concatenatedString;
+}
+
+
 
 module.exports = { input_filters };
