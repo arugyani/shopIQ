@@ -36,8 +36,9 @@ async function scrapeFilter(search) {
       filters[groupName] = filterOptions;
     } catch (error) {}
   }
-  console.log(JSON.stringify(filters, null, 2));
-  return { browser, page };
+  filtersJson = JSON.stringify(filters, null, 2);
+  console.log(filtersJson);
+  return { browser, page, filtersJson };
 }
 
 module.exports = { scrapeFilter };

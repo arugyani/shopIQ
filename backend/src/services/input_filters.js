@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-//const scape_products = require("./scrape_products");
+const scape_products = require("./scrape_products");
 async function input_filters(browser, page, filtersJson, input, query) {
   for (const [filterCategory, filterOption] of Object.entries(input)) {
     let found = false;
@@ -22,6 +22,7 @@ async function input_filters(browser, page, filtersJson, input, query) {
             await optionHandles[0].click();
             found = true;
             await page.waitForNavigation({ waitUntil: "networkidle0" });
+            console.log(`The '${filterCategory}: ${filterOption}' was found.`);
             break; //since found break the loop and move on
           }
         } catch (error) {
@@ -38,7 +39,9 @@ async function input_filters(browser, page, filtersJson, input, query) {
       );
     }
   }
-  //  scape_products.scrapeProductLinks(page, browser); //call the function to scrape product information
+  const productsJSON = await scape_products.scrapeProductLinks(page, browser); //call the function to scrape product information
+  console.log(productsJSON);
+  return productsJSON;
   //return browser;
 }
 
