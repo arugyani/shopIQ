@@ -22,3 +22,8 @@ Services typically contain modules or classes that define the business logic of 
 ## Utils
 Utilities are helper functions or modules that provide a set of tools or methods to perform common, often repeated tasks across your application.
 
+# Gemini API - ENV File
+The Gemini API requires API secrets which can be found in discord/backend-notes
+Put this `.env` file in your backend folder to unlock the gemini api.
+Plz don't commit this env to github, if you do plz let Divyam know so he can create a new API Key thanks ; )
+
