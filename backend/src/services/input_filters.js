@@ -1,15 +1,16 @@
 const puppeteer = require("puppeteer");
 const scape_products = require("./scrape_products");
 async function input_filters(browser, page, filtersJson, input, query) {
-  
   concatenatedString = concatValuesWithNumbers(input);
   concatenatedString = query + " " + concatenatedString;
-  
+
   //await page.type('input[type="search"]', concatenatedString);
-  const inputElement = await page.$('#sh-h-input__root > input.sh-h-input__search-form');
+  const inputElement = await page.$(
+    "#sh-h-input__root > input.sh-h-input__search-form"
+  );
   await inputElement.type(concatenatedString);
-  await inputElement.press('Enter');
-  await page.waitForNavigation({ waitUntil: 'networkidle0' });
+  await inputElement.press("Enter");
+  await page.waitForNavigation({ waitUntil: "networkidle0" });
 
   for (const [filterCategory, filterOption] of Object.entries(input)) {
     let found = false;
@@ -24,7 +25,7 @@ async function input_filters(browser, page, filtersJson, input, query) {
         //check if the correct filter list is being iterated through
         const optionSelector = `xpath/.//a[contains(., '${filterOption}')]`; //looks for the correct option
         try {
-          await page.waitForSelector(optionSelector, { timeout: 3000 });
+          await page.waitForSelector(optionSelector, { timeout: 1800 });
 
           const optionHandles = await filterHandle.$$(optionSelector);
 
@@ -50,7 +51,6 @@ async function input_filters(browser, page, filtersJson, input, query) {
     }
   }
   const productsJSON = await scape_products.scrapeProductLinks(page, browser); //call the function to scrape product information
-  console.log(productsJSON);
   return productsJSON;
   //return browser;
 }
@@ -71,7 +71,5 @@ function concatValuesWithNumbers(filters) {
   }
   return concatenatedString;
 }
-
-
 
 module.exports = { input_filters };

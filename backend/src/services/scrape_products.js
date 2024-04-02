@@ -15,24 +15,23 @@ const scrapeProductLinks = async (page, browser) => {
       console.error("Error retrieving product href:", error);
     }
   }
-
-  await browser.close();
+  //console.log(productLinks);
 
   productMotherLoad = {};
 
   if (productLinks.length > 10) {
     for (var i = 0; i < 10; i++) {
-      const prod = await scrapeProduct(productLinks[i]);
+      const prod = await scrapeProduct(productLinks[i], browser);
       productMotherLoad[prod.title] = prod;
     }
   } else {
     for (var i = 0; i < productLinks.length; i++) {
-      const prod = await scrapeProduct(productLinks[i]);
+      const prod = await scrapeProduct(productLinks[i], browser);
       productMotherLoad[prod.title] = prod;
     }
   }
   productsJSON = JSON.stringify(productMotherLoad, null, 2);
-  //console.log(productsJSON);
+  await browser.close();
   return productsJSON;
 };
 const scrapeText = async (page, query) => {
@@ -58,13 +57,7 @@ const scrapeImageSrc = async (page) => {
   return imageUrl;
 };
 
-const scrapeProduct = async (link) => {
-  const browser = await puppeteer.launch({
-    headless: true,
-    devtools: true,
-    args: ["--lang=en-US"],
-  });
-
+const scrapeProduct = async (link, browser) => {
   const page = await browser.newPage();
   await page.goto(link, {
     waitUntil: "networkidle2",
@@ -78,8 +71,6 @@ const scrapeProduct = async (link) => {
   const prodReviewScore = await scrapeText(page, ".uYNZm");
   const prodNumReviews = await scrapeText(page, ".qIEPib");
   const prodImgLink = await scrapeImageSrc(page, "Xkiaqc");
-
-  await browser.close();
 
   const prodInfo = {
     title: productTitle,
