@@ -28,4 +28,4 @@ app.listen(port, () => {
   console.log(`shopIQ API listening on port ${port} 😎`);
 });
 
-// productScraper.scrapeProductLinks("tv")
+// productScraper.scrapeProductLinks("tv");
