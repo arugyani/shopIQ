@@ -42,7 +42,7 @@ function App() {
           defaultSize={75}
           className='px-8 flex flex-col overflow-y-auto'
         >
-          <div className='flex-auto overflow-y-auto mb-8'>
+          <div className='flex-auto overflow-y-auto mb-8 w-full pr-4'>
             <SearchBar />
             <div className='flex grow flex-col gap-1'>
               <div>Multiple choice and LLM Interactions with Products</div>

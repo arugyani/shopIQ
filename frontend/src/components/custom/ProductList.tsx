@@ -17,7 +17,7 @@ const Product: FC<ProductProps> = ({ product }) => {
   const quality = reviews[0].split("(")[0].trim();
 
   return (
-    <div className='border border-gray-300 shadow-lg rounded-lg px-4 py-8 flex flex-col items-center justify-center w-2/5 min-h-2/4 mx-auto my-8 hover:bg-neutral-100 transition-color cursor-pointer'>
+    <div className='border border-gray-300 shadow-lg rounded-lg px-4 py-8 w-full flex flex-col items-center justify-center w-2/5 min-h-2/4 mx-auto my-8 hover:bg-neutral-100 transition-color cursor-pointer'>
       <h1 className='text-xl font-bold mb-10 text-center'>{title}</h1>
       <div className='flex w-full flex-row justify-between items-center gap-4'>
         {imgLink !== null && (
@@ -52,7 +52,8 @@ export const ProductList = () => {
   }, [dispatch]);
 
   return (
-    <div className='flex flex-wrap h-full mx-auto justify-center items-center'>
+    <div className='mx-auto w-full h-fit grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center'>
+      {/* <div className='flex flex-wrap w-full h-fit mx-auto justify-center items-center'> */}
       {status === "loading" ? (
         <LoadingSpinner className='text-gray-500' width={45} height={45} />
       ) : (
