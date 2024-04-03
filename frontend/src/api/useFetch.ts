@@ -1,3 +1,4 @@
+import { ProductType } from "@/app/features/productSlice";
 import { Question } from "@/app/features/questionSlice";
 
 const fetchQuestions = async (query: string): Promise<Question[]> => {
@@ -21,4 +22,26 @@ const fetchQuestions = async (query: string): Promise<Question[]> => {
   }
 };
 
-export { fetchQuestions };
+const fetchProducts = async (body: JSON): Promise<ProductType[]> => {
+  const requestOptions: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    redirect: "follow",
+  };
+
+  try {
+    console.log(body); // avoid TypeScript error for now
+    const response = await fetch(
+      "http://localhost:3000/recommendations",
+      requestOptions
+    );
+
+    const result: ProductType[] = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export { fetchQuestions, fetchProducts };
