@@ -12,14 +12,13 @@ const getLLMResponse = async (prompt) => {
     .env file can be found in discord/backend-notes
     env file should be placed in backend folder
   */
-  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const text = response.text();
   return text;
-
-}
+};
 module.exports = {
   getLLMResponse,
-  getDummyLLMResponse
+  getDummyLLMResponse,
 };

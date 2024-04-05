@@ -22,6 +22,7 @@ const scrapeFilter = require("./src/services/scrape_filers");
 const input_filters = require("./src/services/input_filters");
 const generate_sample = require("./src/dummy/generate_dummy");
 
+
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -39,7 +40,9 @@ app.listen(port, () => {
   console.log(await searchService.getLLMResponse("What is the best LLM?"));
 })();
 
-let query = "Camera";
+
+let query = "TV";
+
 const callScraper = async function () {
   //test function
   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
