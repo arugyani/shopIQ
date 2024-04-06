@@ -17,7 +17,7 @@ const Product: FC<ProductProps> = ({ product }) => {
   const quality = reviews[0].split("(")[0].trim();
 
   return (
-    <div className='border border-gray-300 shadow-lg rounded-lg px-4 py-8 w-full flex flex-col items-center justify-center w-2/5 min-h-2/4 mx-auto my-8 hover:bg-neutral-100 transition-color cursor-pointer'>
+    <div className='border border-gray-300 shadow-lg rounded-lg px-4 py-8 w-full h-full flex flex-col items-center justify-center mx-auto my-8 hover:bg-neutral-100 transition-color cursor-pointer'>
       <h1 className='text-xl font-bold mb-10 text-center'>{title}</h1>
       <div className='flex w-full flex-row justify-between items-center gap-4'>
         {imgLink !== null && (
