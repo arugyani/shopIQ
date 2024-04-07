@@ -1,6 +1,7 @@
 const searchService = require("../services/searchService");
 const asyncHandler = require("express-async-handler");
 
+
 const getQuestions = asyncHandler(async (req, res) => {
   const { query } = req.params;
   console.log(query);
@@ -40,6 +41,7 @@ const getQuestions = asyncHandler(async (req, res) => {
   llmResponseJSON = JSON.parse(llmResponse);
   res.json(llmResponseJSON);
 });
+
 
 module.exports = {
   getQuestions,

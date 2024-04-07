@@ -36,6 +36,8 @@ async function scrapeFilter(search) {
       filters[groupName] = filterOptions;
     } catch (error) {}
   }
+  delete filters["Show only"];
+  delete filters["Product rating"];
   filtersJson = JSON.stringify(filters, null, 2);
   console.log(filtersJson);
   return { browser, page, filtersJson };

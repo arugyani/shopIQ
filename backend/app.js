@@ -5,10 +5,10 @@
  * Created: 02/27/2024
  * Description: Entry point for the Express application.
  */
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const fetch = require('cross-fetch');
+const fetch = require("cross-fetch");
 global.fetch = fetch;
 
 const app = express();
@@ -36,13 +36,13 @@ app.listen(port, () => {
   console.log(`shopIQ API listening on port ${port} 😎`);
 });
 
-
 (async () => {
   console.log(await searchService.getLLMResponse("What is the best LLM?"));
 })();
 
 
 let query = "TV";
+
 const callScraper = async function () {
   //test function
   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
@@ -55,6 +55,6 @@ const callScraper = async function () {
     sample,
     query
   );
+  console.log(productsJSON);
 };
 callScraper();
-
