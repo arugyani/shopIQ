@@ -23,7 +23,7 @@ const Product: FC<ProductProps> = ({ product }) => {
         {imgLink !== null && (
           <img
             src={imgLink}
-            className={`mb-4 w-2/5 border border-4 border-gray-400 rounded p-2`}
+            className={`mb-4 w-2/5 border-4 border-gray-400 rounded p-2`}
           />
         )}
         <div className='flex-1 grow flex flex-col justify-center items-center'>
