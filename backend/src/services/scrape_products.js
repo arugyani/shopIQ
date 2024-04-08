@@ -80,6 +80,7 @@ const scrapeProduct = async (link, browser) => {
 
   const prodInfo = {
     title: productTitle,
+    prodLink: link,
     imgLink: prodImgLink,
     bullets: prodBullets,
     description: prodDesc,
