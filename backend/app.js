@@ -37,24 +37,24 @@ app.listen(port, () => {
 });
 
 (async () => {
-  console.log(await searchService.getLLMResponse("What is the best LLM?"));
+  console.log(await searchService.getLLMResponse("What is the best LLM?", 1.5));
 })();
 
 
-let query = "TV";
+// let query = "TV";
 
-const callScraper = async function () {
-  //test function
-  const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
-  sample = generate_sample.selectOneFromEachCategory(filtersJson);
-  console.log(JSON.stringify(sample, null, 2));
-  const productsJSON = await input_filters.input_filters(
-    browser,
-    page,
-    filtersJson,
-    sample,
-    query
-  );
-  console.log(productsJSON);
-};
-callScraper();
+// const callScraper = async function () {
+//   //test function
+//   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
+//   sample = generate_sample.selectOneFromEachCategory(filtersJson);
+//   console.log(JSON.stringify(sample, null, 2));
+//   const productsJSON = await input_filters.input_filters(
+//     browser,
+//     page,
+//     filtersJson,
+//     sample,
+//     query
+//   );
+//   console.log(productsJSON);
+// };
+// callScraper();
