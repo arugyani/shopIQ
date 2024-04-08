@@ -19,15 +19,14 @@ const scrapeProductLinks = async (page, browser) => {
 
   productMotherLoad = [];
 
-  if (productLinks.length > 10) {
-    for (var i = 0; i < 10; i++) {
+  const scrapeLimit = Math.min(productLinks.length, 10);
+  for (let i = 0; i < scrapeLimit; i++) {
+    try {
       const prod = await scrapeProduct(productLinks[i], browser);
       productMotherLoad.push(prod);
-    }
-  } else {
-    for (var i = 0; i < productLinks.length; i++) {
-      const prod = await scrapeProduct(productLinks[i], browser);
-      productMotherLoad.push(prod);
+    } catch (error) {
+      console.error(`Error scraping product at ${productLinks[i]}:`, error);
+      productMotherLoad.push({ error: `Failed to scrape product at ${productLinks[i]}`, details: error.message });
     }
   }
   productsJSON = JSON.stringify(productMotherLoad, null, 2);
