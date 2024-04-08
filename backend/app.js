@@ -22,7 +22,6 @@ const scrapeFilter = require("./src/services/scrape_filers");
 const input_filters = require("./src/services/input_filters");
 const generate_sample = require("./src/dummy/generate_dummy");
 
-
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -36,25 +35,24 @@ app.listen(port, () => {
   console.log(`shopIQ API listening on port ${port} 😎`);
 });
 
-(async () => {
-  console.log(await searchService.getLLMResponse("What is the best LLM?"));
-})();
+// (async () => {
+//   console.log(await searchService.getLLMResponse("What is the best LLM?"));
+// })();
 
+//let query = "TV";
 
-let query = "TV";
-
-const callScraper = async function () {
-  //test function
-  const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
-  sample = generate_sample.selectOneFromEachCategory(filtersJson);
-  console.log(JSON.stringify(sample, null, 2));
-  const productsJSON = await input_filters.input_filters(
-    browser,
-    page,
-    filtersJson,
-    sample,
-    query
-  );
-  console.log(productsJSON);
-};
-callScraper();
+// const callScraper = async function () {
+//   //test function
+//   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
+//   sample = generate_sample.selectOneFromEachCategory(filtersJson);
+//   console.log(JSON.stringify(sample, null, 2));
+//   const productsJSON = await input_filters.input_filters(
+//     browser,
+//     page,
+//     filtersJson,
+//     sample,
+//     query
+//   );
+//   console.log(productsJSON);
+// };
+// callScraper();
