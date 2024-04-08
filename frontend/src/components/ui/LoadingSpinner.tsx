@@ -2,14 +2,20 @@ import { cn } from "@/lib/utils";
 
 interface LoadingSpinnerProps {
   className: string;
+  width?: number;
+  height?: number;
 }
 
-export const LoadingSpinner = ({ className }: LoadingSpinnerProps) => {
+export const LoadingSpinner = ({
+  className,
+  width,
+  height,
+}: LoadingSpinnerProps) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
+      width={`${width || "24"}`}
+      height={`${height || "24"}`}
       viewBox='0 0 24 24'
       fill='none'
       stroke='currentColor'
