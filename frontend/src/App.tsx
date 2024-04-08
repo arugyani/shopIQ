@@ -7,12 +7,9 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import SearchHistory from "./components/custom/SearchHistory";
+import InfoBlurb from "./components/custom/InfoBlurb";
+import { addToHistory, clearHistory, selectHistory } from "./app/features/historySlice";
 import { ProductList } from "./components/custom/ProductList";
-import {
-  addToHistory,
-  clearHistory,
-  selectHistory,
-} from "./app/features/historySlice";
 import { useAppSelector } from "./app/hooks";
 import { Button } from "./components/ui/button";
 import { useDispatch } from "react-redux";
@@ -57,6 +54,7 @@ function App() {
             </div>
             <ProductList />
           </div>
+          <InfoBlurb />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
