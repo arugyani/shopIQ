@@ -26,7 +26,6 @@ const scrapeProductLinks = async (page, browser) => {
       productMotherLoad.push(prod);
     } catch (error) {
       console.error(`Error scraping product at ${productLinks[i]}:`, error);
-      productMotherLoad.push({ error: `Failed to scrape product at ${productLinks[i]}`, details: error.message });
     }
   }
   productsJSON = JSON.stringify(productMotherLoad, null, 2);
