@@ -20,7 +20,7 @@ import { useAppSelector } from "./app/hooks";
 import { Button } from "./components/ui/button";
 import { useDispatch } from "react-redux";
 import MulitpleChoiceQuestion from "./components/custom/MulitpleChoiceQuestion";
-import { HistoryObject, MultipleChoiceObject } from "./types-and-interfaces";
+import { HistoryObject } from "./types-and-interfaces";
 import { useState } from "react";
 import { sampleHistoryObject } from "./lib/sampledata";
 function App() {
