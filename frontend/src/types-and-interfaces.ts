@@ -22,6 +22,6 @@ export interface ProductObject  {
   description: string | null;
   reviews: string[];
   price: string;
-  reviewScore: number;
+  reviewScore: string;
   numReviews: string;
 };

@@ -220,9 +220,13 @@ export const selectStatus = (state: RootState) => state.history.status;
 export const selectCurrentHistoryId = (state: RootState) => state.history.currentHistoryId;
 export const selectCurrentProducts = (state: RootState) => {
   const CurrentProducts = state.history.historyList.find((historyObj)=>historyObj.id==state.history.currentHistoryId)?.products
-  return CurrentProducts?CurrentProducts:[]
+  if(CurrentProducts){
+    return CurrentProducts
+  }else return []
 };
 export const selectCurrentQuestions = (state: RootState) => {
   const CurrentQuestions = state.history.historyList.find((historyObj)=>historyObj.id==state.history.currentHistoryId)?.questions
-  return CurrentQuestions?CurrentQuestions:[]
+  if(CurrentQuestions){
+      return CurrentQuestions
+    }else return []
 };

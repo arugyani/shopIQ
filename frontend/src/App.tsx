@@ -12,6 +12,7 @@ import {
   addToHistory,
   clearHistory,
   selectCurrentHistoryId,
+  selectCurrentQuestions,
   selectHistory,
   updateQuestion,
 } from "./app/features/historySlice";
@@ -19,86 +20,20 @@ import { useAppSelector } from "./app/hooks";
 import { Button } from "./components/ui/button";
 import { useDispatch } from "react-redux";
 import MulitpleChoiceQuestion from "./components/custom/MulitpleChoiceQuestion";
-import { MultipleChoiceObject } from "./types-and-interfaces";
-import { useEffect, useState } from "react";
+import { HistoryObject, MultipleChoiceObject } from "./types-and-interfaces";
+import { useState } from "react";
+import { sampleHistoryObject } from "./lib/sampledata";
 function App() {
   const historyList = useAppSelector(selectHistory);
   const dispatch = useDispatch();
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
   const [interactionsExpanded, setInteractionsExpanded] = useState(false);
-  const [MultipleChoiceData, setMultipleChoiceData] = useState<
-    MultipleChoiceObject[]
-  >([]);
-  useEffect(() => {
-    if (currentHistoryId != "" && historyList.length > 0) {
-      const currentQuestions = historyList.find(
-        (historyObj) => historyObj.id == currentHistoryId
-      )?.questions;
-      if (currentQuestions) {
-        setMultipleChoiceData(currentQuestions);
-      }
-    }
-  }, [currentHistoryId, historyList]);
+  const MultipleChoiceData = useAppSelector(selectCurrentQuestions)
+
 
   const handleAddToHistory = () => {
-    const historyObjectToAdd = {
-      id: "3453345",
-      name: "Coffee Grinder for Use in an Office",
-      svg: "mixer.svg",
-      questions: [
-        {
-          id: "1",
-          question: "Where will you use this?",
-          answers: [
-            { text: "At Home", selected: true },
-            { text: "At Home", selected: false },
-            { text: "In Office", selected: false },
-            { text: "Outside", selected: false },
-          ],
-          other: "",
-          multipleAnswers: false,
-        },
-
-        {
-          id: "2",
-          question: "Where will you use this?",
-          answers: [
-            { text: "At Home", selected: false },
-            { text: "At Home", selected: false },
-            { text: "In Office", selected: false },
-            { text: "Outside", selected: false },
-          ],
-          other: "string",
-          multipleAnswers: true,
-        },
-        {
-          id: "3",
-          question: "Where will you use this?",
-          answers: [
-            { text: "At Home", selected: false },
-            { text: "At Home", selected: false },
-            { text: "In Office", selected: false },
-            { text: "Outside", selected: false },
-          ],
-          other: "string",
-          multipleAnswers: true,
-        },
-        {
-          id: "4",
-          question: "Where will you use this?",
-          answers: [
-            { text: "At Home", selected: false },
-            { text: "At Home", selected: false },
-            { text: "In Office", selected: false },
-            { text: "Outside", selected: false },
-          ],
-          other: "string",
-          multipleAnswers: true,
-        },
-      ],
-      products: [],
-    };
-    dispatch(addToHistory(historyObjectToAdd));
+    const historyObjectToAdd = sampleHistoryObject;
+    dispatch(addToHistory(historyObjectToAdd as HistoryObject));
   };
 
   const handleMulitpleChoiceSelection = (id: string, option: string) => {
@@ -158,7 +93,7 @@ function App() {
           className='px-8 flex flex-col overflow-y-auto'
         >
           <SearchBar />
-          <div className="flex grow flex-col gap-1">
+          <div className="flex flex-col gap-1">
             <div>
               {currentHistoryId != "" &&
               MultipleChoiceData.length > 0 &&
@@ -203,8 +138,9 @@ function App() {
                 <></>
               )}
             </div>
-            <Button onClick={handleAddToHistory}>Add random History</Button>
+            <Button onClick={handleAddToHistory}>Add sample History</Button>
             <Button
+            className="mb-4"
               onClick={() => {
                 dispatch(clearHistory());
               }}
