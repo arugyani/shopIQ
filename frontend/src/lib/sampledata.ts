@@ -200,4 +200,22 @@ export const sampleHistory = [
       "svg": "carton.svg"
     }
   ]
-  
+export const sampleMultipleChoiceData =[
+  {  id:"1",
+    question: "Where will you use this?",
+    answers: [{text:"At Home", selected: true},{text:"At Home", selected: false},{text:"In Office", selected: false},{text:"Outside", selected: false}],
+    other: "",multipleAnswers: true},
+    
+  {  id:"2",
+      question: "Where will you use this?",
+      answers: [{text:"At Home", selected: false},{text:"At Home", selected: false},{text:"In Office", selected: false},{text:"Outside", selected: false}],
+      other: "string",multipleAnswers: true},
+  {  id:"3",
+      question: "Where will you use this?",
+      answers: [{text:"At Home", selected: false},{text:"At Home", selected: false},{text:"In Office", selected: false},{text:"Outside", selected: false}],
+      other: "string",multipleAnswers: true},
+  {  id:"4",
+      question: "Where will you use this?",
+      answers: [{text:"At Home", selected: false},{text:"At Home", selected: false},{text:"In Office", selected: false},{text:"Outside", selected: false}],
+      other: "string",multipleAnswers: true}
+]

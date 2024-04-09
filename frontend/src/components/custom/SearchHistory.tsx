@@ -1,15 +1,19 @@
+import { selectCurrentHistoryId, updateCurrentHistoryId } from "@/app/features/historySlice";
+import { useAppSelector } from "@/app/hooks";
 import { HistoryObject } from "@/types-and-interfaces";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface SearchHistoryProps {
   history: HistoryObject[];
 }
 const SearchHistory: React.FC<SearchHistoryProps> = ({ history }) => {
-  const [selectedItem, setSelectedItem] = useState(0);
+  const dispatch = useDispatch();
+  const currentHistoryId = useAppSelector(selectCurrentHistoryId)
+  
   return (
     <div className="flex gap-2 flex-col px-4 overflow-auto h-full">
       {history.map((historyObj, historyIndex) => {
-        if (selectedItem == historyIndex) {
+        if (currentHistoryId == historyObj.id) {
           return (
             <div
               key={historyIndex}
@@ -24,7 +28,7 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({ history }) => {
               key={historyIndex}
               className="rounded min-h-10 border-none p-2 bg-[#0043A2]/40 justify-center text-white hover:bg-[#475569] font-bold truncate"
               onClick={() => {
-                setSelectedItem(historyIndex);
+                dispatch(updateCurrentHistoryId({historyId: historyObj.id}));
               }}
             >
               {historyObj.name}
