@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import historyReducer from "./features/historySlice";
-import questionReducer from "./features/questionSlice";
 
 export const store = configureStore({
   reducer: {
     history: historyReducer,
-    questions: questionReducer,
   },
 });
 
