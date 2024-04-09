@@ -15,11 +15,13 @@ export type ProductType = {
 
 export interface ProductState {
   productList: ProductType[];
+  selected: number | null;
   status: "idle" | "loading" | "failed";
 }
 
 const initialState: ProductState = {
   productList: [],
+  selected: null,
   status: "idle",
 };
 
@@ -29,6 +31,9 @@ export const productSlice = createSlice({
   reducers: {
     setProductList: (state, action: PayloadAction<ProductType[]>) => {
       state.productList = action.payload;
+    },
+    setSelected: (state, action: PayloadAction<number | null>) => {
+      state.selected = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -57,10 +62,11 @@ export const productsAsync = createAsyncThunk(
   }
 );
 
-export const { setProductList } = productSlice.actions;
+export const { setProductList, setSelected } = productSlice.actions;
 
 export const selectProductList = (state: RootState) =>
   state.products.productList;
 export const selectStatus = (state: RootState) => state.products.status;
+export const selectSelected = (state: RootState) => state.products.selected;
 
 export default productSlice.reducer;
