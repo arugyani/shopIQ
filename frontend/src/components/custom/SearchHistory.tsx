@@ -15,17 +15,11 @@ const SearchHistory: FC<SearchHistoryProps> = ({ history }) => {
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
 
   const historyObjectStyles = (id: string) => {
-    return `
-      rounded
-      min-h-10
-      border-gray-400
-      p-2
-      justify-center
-      text-white
-      bg-${currentHistoryId === id ? "[#475569]" : "[#0043A2]/40"}
-      hover:bg-[#475569]
-      font-bold truncate
-      cursor-pointer`;
+    console.log(currentHistoryId, id);
+    const backgroundColor =
+      currentHistoryId === id ? "bg-[#475569]" : "bg-[#0043A2]/40";
+
+    return `rounded min-h-10 border-gray-400 p-3 justify-center text-white ${backgroundColor} hover:bg-[#475569] font-bold text-md truncate cursor-pointer`;
   };
 
   const handleClick = (id: string) =>

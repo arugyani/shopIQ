@@ -13,7 +13,11 @@ export interface HistoryState {
   currentHistoryId: string;
 }
 
-const initialState: HistoryState = { historyList: [], status: "idle", currentHistoryId:"" };
+const initialState: HistoryState = {
+  historyList: [],
+  status: "idle",
+  currentHistoryId: "",
+};
 
 export const historySlice = createSlice({
   name: "history",
@@ -131,8 +135,11 @@ export const historySlice = createSlice({
         }
       }
     },
-    updateCurrentHistoryId:(state,action: PayloadAction<{ historyId: string }>) => {
-      state.currentHistoryId = action.payload.historyId
+    updateCurrentHistoryId: (
+      state,
+      action: PayloadAction<{ historyId: string }>
+    ) => {
+      state.currentHistoryId = action.payload.historyId;
     },
   },
   extraReducers: (builder) => {
@@ -193,7 +200,7 @@ export const {
   addProduct,
   removeProduct,
   updateProduct,
-  updateCurrentHistoryId
+  updateCurrentHistoryId,
 } = historySlice.actions;
 export default historySlice.reducer;
 const savedHistory = localStorage.getItem("history");
@@ -210,23 +217,28 @@ export const questionsAsync = createAsyncThunk(
 );
 export const productsAsync = createAsyncThunk(
   "products/fetchProducts",
-  async (query: {body:JSON, historyId:string}) => {
+  async (query: { body: JSON; historyId: string }) => {
     const response = await fetchProducts(query.body);
-    return {products:response, historyId:query.historyId};
+    return { products: response, historyId: query.historyId };
   }
 );
 export const selectHistory = (state: RootState) => state.history.historyList;
 export const selectStatus = (state: RootState) => state.history.status;
-export const selectCurrentHistoryId = (state: RootState) => state.history.currentHistoryId;
+export const selectCurrentHistoryId = (state: RootState) =>
+  state.history.currentHistoryId;
 export const selectCurrentProducts = (state: RootState) => {
-  const CurrentProducts = state.history.historyList.find((historyObj)=>historyObj.id==state.history.currentHistoryId)?.products
-  if(CurrentProducts){
-    return CurrentProducts
-  }else return []
+  const CurrentProducts = state.history.historyList.find(
+    (historyObj) => historyObj.id == state.history.currentHistoryId
+  )?.products;
+  if (CurrentProducts) {
+    return CurrentProducts;
+  } else return [];
 };
 export const selectCurrentQuestions = (state: RootState) => {
-  const CurrentQuestions = state.history.historyList.find((historyObj)=>historyObj.id==state.history.currentHistoryId)?.questions
-  if(CurrentQuestions){
-      return CurrentQuestions
-    }else return []
+  const CurrentQuestions = state.history.historyList.find(
+    (historyObj) => historyObj.id == state.history.currentHistoryId
+  )?.questions;
+  if (CurrentQuestions) {
+    return CurrentQuestions;
+  } else return [];
 };
