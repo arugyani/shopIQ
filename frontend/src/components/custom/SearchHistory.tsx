@@ -20,9 +20,9 @@ const SearchHistory: FC<SearchHistoryProps> = ({ history }) => {
       min-h-10
       border-gray-400
       p-2
-      bg-${currentHistoryId === id ? "[#475569]" : "[#0043A2]/40"}
       justify-center
       text-white
+      bg-${currentHistoryId === id ? "[#475569]" : "[#0043A2]/40"}
       hover:bg-[#475569]
       font-bold truncate
       cursor-pointer`;
