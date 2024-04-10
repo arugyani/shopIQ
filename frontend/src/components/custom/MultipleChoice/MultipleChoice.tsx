@@ -25,11 +25,10 @@ const AnswerUI: FC<AnswerUIProps> = ({ option, id }) => {
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
   const currentQuestions = useAppSelector(selectCurrentQuestions);
 
-  const backgroundStyle = selected ? "[#FFCA3A]" : "transparent";
-  const borderStyle = selected ? "[#A67900]" : "[#FFCA3A]";
-  const textStyle = selected ? "[#A67900]" : "[#FFCA3A]";
+  const backgroundStyle = selected ? "bg-[#FFCA3A]" : "bg-transparent";
+  const borderStyle = selected ? "border-[#A67900]" : "border-[#FFCA3A]";
 
-  const buttonStyles = `grow rounded-3xl p-4 border-2 border-${borderStyle} bg-${backgroundStyle} text-${textStyle} hover:bg-[#FFCA3A] hover:border-[#A67900] hover:text-[#A67900]`;
+  const buttonStyles = `grow rounded-3xl p-4 border-2 ${borderStyle} ${backgroundStyle} text-[#A67900] hover:bg-[#FFCA3A] hover:border-[#A67900] hover:text-[#A67900]`;
 
   const handleSelect = () => {
     currentQuestions.forEach((question) => {
@@ -88,8 +87,6 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ data }) => {
     });
   };
 
-  const otherStyles = `border-2 px-4 py-2 text-gray-500 rounded-3xl`;
-
   return (
     <div className='py-4 rounded w-full'>
       <p className='font-medium text-md mb-4'>{question}</p>
@@ -98,7 +95,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ data }) => {
           return <AnswerUI key={index} option={option} id={id} />;
         })}
         <input
-          className={otherStyles}
+          className='border border-gray px-4 py-2 rounded-3xl text-gray-500'
           placeholder='Other'
           value={data.other}
           onChange={(e) => handleOther(id, e.target.value)}
