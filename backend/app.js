@@ -16,11 +16,6 @@ const port = 3000;
 
 const searchRouter = require("./src/routes/searchRoutes");
 const recommendationRoute = require("./src/routes/recommendationRoute");
-const searchService = require("./src/services/searchService");
-
-const scrapeFilter = require("./src/services/scrape_filers");
-const input_filters = require("./src/services/input_filters");
-const generate_sample = require("./src/dummy/generate_dummy");
 
 app.use(cors());
 

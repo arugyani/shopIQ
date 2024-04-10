@@ -41,7 +41,7 @@ const getQuestions = asyncHandler(async (req, res) => {
   const processedllmResponse = removeticks(llmResponse);
   let llmResponseJSON = JSON.parse(processedllmResponse);
   for (let i = 0; i < llmResponseJSON.length; i++) {
-    const id = i;
+    const id = i.toString();
     const newObj = { id, ...llmResponseJSON[i] };
     delete newObj["id"];
     llmResponseJSON[i] = { id, ...newObj };
