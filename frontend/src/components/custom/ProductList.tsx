@@ -1,15 +1,11 @@
-import {
-  ProductType,
-  productsAsync,
-  selectProductList,
-  selectStatus,
-} from "@/app/features/productSlice";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { FC, useEffect } from "react";
+import { useAppSelector } from "@/app/hooks";
+import { FC } from "react";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
+import { ProductObject } from "@/types-and-interfaces";
+import { selectCurrentProducts, selectStatus } from "@/app/features/historySlice";
 
 interface ProductProps {
-  product: ProductType;
+  product: ProductObject;
 }
 
 const Product: FC<ProductProps> = ({ product }) => {
@@ -42,18 +38,12 @@ const Product: FC<ProductProps> = ({ product }) => {
 };
 
 export const ProductList = () => {
-  const dispatch = useAppDispatch();
 
   const status = useAppSelector(selectStatus);
-  const productList = useAppSelector(selectProductList);
-
-  useEffect(() => {
-    dispatch(productsAsync(JSON));
-  }, [dispatch]);
+  const productList = useAppSelector(selectCurrentProducts)
 
   return (
     <div className='mx-auto w-full h-fit grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center'>
-      {/* <div className='flex flex-wrap w-full h-fit mx-auto justify-center items-center'> */}
       {status === "loading" ? (
         <LoadingSpinner className='text-gray-500' width={45} height={45} />
       ) : (
