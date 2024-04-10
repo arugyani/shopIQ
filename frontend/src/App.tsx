@@ -28,8 +28,7 @@ function App() {
   const dispatch = useDispatch();
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
   const [interactionsExpanded, setInteractionsExpanded] = useState(false);
-  const MultipleChoiceData = useAppSelector(selectCurrentQuestions)
-
+  const MultipleChoiceData = useAppSelector(selectCurrentQuestions);
 
   const handleAddToHistory = () => {
     const historyObjectToAdd = sampleHistoryObject;
@@ -81,7 +80,7 @@ function App() {
   };
 
   return (
-    <div className='app px-10 h-screen flex flex-col'>
+    <div className='app px-10 h-screen flex flex-col bg-[#faf9f6]'>
       <Header />
       <ResizablePanelGroup direction='horizontal' className='overflow-auto'>
         <ResizablePanel defaultSize={25} className='overflow-auto'>
@@ -90,10 +89,10 @@ function App() {
         <ResizableHandle />
         <ResizablePanel
           defaultSize={75}
-          className='px-8 flex flex-col overflow-y-auto'
+          className='pl-8 flex flex-col overflow-y-auto'
         >
           <SearchBar />
-          <div className="flex flex-col gap-1">
+          <div className='flex flex-col gap-1'>
             <div>
               {currentHistoryId != "" &&
               MultipleChoiceData.length > 0 &&
@@ -108,7 +107,14 @@ function App() {
                       ></MulitpleChoiceQuestion>
                     );
                   })}
-                  <div className="text-sm p-4 hover:underline hover:text-blue-400" onClick={()=>{setInteractionsExpanded(false)}}>Minimize</div>
+                  <div
+                    className='text-sm p-4 hover:underline hover:text-blue-400'
+                    onClick={() => {
+                      setInteractionsExpanded(false);
+                    }}
+                  >
+                    Minimize
+                  </div>
                 </>
               ) : (
                 <></>
@@ -117,7 +123,7 @@ function App() {
               MultipleChoiceData.length > 0 &&
               !interactionsExpanded ? (
                 <div
-                  className="rounded-xl border p-4 my-4 flex gap-2 overflow-auto flex-wrap hover:bg-slate-50"
+                  className='rounded-xl border p-4 my-4 flex gap-2 overflow-auto flex-wrap hover:bg-slate-50'
                   onClick={() => {
                     setInteractionsExpanded(true);
                   }}
@@ -126,7 +132,7 @@ function App() {
                     return questionObj.answers.map((option) => {
                       if (option.selected) {
                         return (
-                          <div className="rounded-3xl p-2 border bg-[#FFCA3A] text-black border-[#A67900] text-sm min-w-24 max-h-12 flex justify-center">
+                          <div className='rounded-3xl p-2 border bg-[#FFCA3A] text-black border-[#A67900] text-sm min-w-24 max-h-12 flex justify-center'>
                             {option.text}
                           </div>
                         );
@@ -140,7 +146,7 @@ function App() {
             </div>
             <Button onClick={handleAddToHistory}>Add sample History</Button>
             <Button
-            className="mb-4"
+              className='mb-4'
               onClick={() => {
                 dispatch(clearHistory());
               }}

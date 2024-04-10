@@ -51,7 +51,7 @@ const SearchBar = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(questionsAsync({search: query, historyId:""}));
+    dispatch(questionsAsync({ search: query, historyId: "" }));
   };
 
   const iconClasses = "text-gray-500 w-5 h-5 mr-2";
@@ -59,7 +59,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='search-bar flex flex-row items-center border border-1 rounded-full px-3'
+      className='search-bar flex flex-row items-center border border-1 border-[#E1E1E1] rounded-full px-3 bg-[#334155]/5 w-full'
     >
       {status === "loading" ? (
         <LoadingSpinner className={iconClasses} />
@@ -69,7 +69,7 @@ const SearchBar = () => {
       <Input
         type='text'
         placeholder={`${randomPlaceholder()}...`}
-        className='flex-1 border-0 pl-0 focus-visible:outline-none'
+        className='flex-1 border-0 pl-0 focus-visible:outline-none bg-transparent text-gray-500'
         value={query}
         onChange={handleChange}
       />

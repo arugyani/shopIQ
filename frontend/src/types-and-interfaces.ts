@@ -7,15 +7,15 @@ export interface HistoryObject {
 }
 
 export interface MultipleChoiceObject {
-  id:string;
+  id: string;
   question: string;
-  answers: {text:string, selected: boolean}[];
+  answers: { text: string; selected: boolean }[];
   multipleAnswers: boolean;
   other: string;
 }
 
-export interface ProductObject  {
-  id:string;
+export interface ProductObject {
+  id: string;
   title: string;
   imgLink: string;
   bullets: string[];
@@ -24,4 +24,4 @@ export interface ProductObject  {
   price: string;
   reviewScore: string;
   numReviews: string;
-};
+}
