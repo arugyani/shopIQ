@@ -15,7 +15,6 @@ const SearchHistory: FC<SearchHistoryProps> = ({ history }) => {
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
 
   const historyObjectStyles = (id: string) => {
-    console.log(currentHistoryId, id);
     const backgroundColor =
       currentHistoryId === id ? "bg-[#475569]" : "bg-[#0043A2]/40";
 
@@ -26,7 +25,7 @@ const SearchHistory: FC<SearchHistoryProps> = ({ history }) => {
     dispatch(updateCurrentHistoryId({ historyId: id }));
 
   return (
-    <div className='flex gap-2 flex-col px-4 mr-2 overflow-auto h-full rounded'>
+    <div className='flex gap-2 flex-col mr-4 overflow-auto h-full rounded'>
       {history.map((historyObj, index) => {
         return (
           <div

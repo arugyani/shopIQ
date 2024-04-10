@@ -190,6 +190,7 @@ export const historySlice = createSlice({
       });
   },
 });
+
 export const {
   addToHistory,
   removeFromHistory,
@@ -203,6 +204,7 @@ export const {
   updateCurrentHistoryId,
 } = historySlice.actions;
 export default historySlice.reducer;
+
 const savedHistory = localStorage.getItem("history");
 if (savedHistory) {
   initialState.historyList = JSON.parse(savedHistory);
@@ -215,6 +217,7 @@ export const questionsAsync = createAsyncThunk(
     return { questions: response, historyId: query.historyId };
   }
 );
+
 export const productsAsync = createAsyncThunk(
   "products/fetchProducts",
   async (query: { body: JSON; historyId: string }) => {
@@ -222,10 +225,13 @@ export const productsAsync = createAsyncThunk(
     return { products: response, historyId: query.historyId };
   }
 );
+
 export const selectHistory = (state: RootState) => state.history.historyList;
 export const selectStatus = (state: RootState) => state.history.status;
+
 export const selectCurrentHistoryId = (state: RootState) =>
   state.history.currentHistoryId;
+
 export const selectCurrentProducts = (state: RootState) => {
   const CurrentProducts = state.history.historyList.find(
     (historyObj) => historyObj.id == state.history.currentHistoryId
@@ -234,6 +240,7 @@ export const selectCurrentProducts = (state: RootState) => {
     return CurrentProducts;
   } else return [];
 };
+
 export const selectCurrentQuestions = (state: RootState) => {
   const CurrentQuestions = state.history.historyList.find(
     (historyObj) => historyObj.id == state.history.currentHistoryId
