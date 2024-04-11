@@ -6,7 +6,6 @@ import {
 } from "@/types-and-interfaces";
 import { RootState } from "../store";
 import { fetchProducts, fetchQuestions } from "@/api/useFetch";
-import { sampleMultipleChoiceData } from "@/lib/sampledata";
 
 export interface HistoryState {
   historyList: HistoryObject[];
@@ -168,8 +167,7 @@ export const historySlice = createSlice({
             id: historyId,
             name: action.payload.name,
             svg: "some svg",
-            questions: sampleMultipleChoiceData as MultipleChoiceObject[],
-            // questions: action.payload.questions as MultipleChoiceObject[],
+            questions: action.payload.questions as MultipleChoiceObject[],
             products: [] as ProductObject[],
           } as HistoryObject;
 

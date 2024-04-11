@@ -8,7 +8,7 @@ import SummaryChoices from "./SummaryChoices";
 import { MultipleChoice } from "./MultipleChoice";
 
 const MultipleChoiceList = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
   const currentQuestions = useAppSelector(selectCurrentQuestions);

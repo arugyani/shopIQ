@@ -90,17 +90,17 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ data }) => {
   return (
     <div className='py-4 rounded w-full'>
       <p className='font-medium text-md mb-4'>{question}</p>
-      <div className='w-full my-2 flex gap-2'>
+      <div className='my-2 flex gap-2'>
         {answers.map((option, index) => {
           return <AnswerUI key={index} option={option} id={id} />;
         })}
-        <input
-          className='border border-gray px-4 py-2 rounded-3xl text-gray-500'
-          placeholder='Other'
-          value={data.other}
-          onChange={(e) => handleOther(id, e.target.value)}
-        />
       </div>
+      <input
+        className='border border-gray px-4 py-2 rounded-3xl text-gray-500'
+        placeholder='Other'
+        value={data.other}
+        onChange={(e) => handleOther(id, e.target.value)}
+      />
     </div>
   );
 };
