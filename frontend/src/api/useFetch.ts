@@ -1,6 +1,8 @@
 import { MultipleChoiceObject, ProductObject } from "@/types-and-interfaces";
 
-const fetchQuestions = async (query: string): Promise<MultipleChoiceObject[]> => {
+const fetchQuestions = async (
+  query: string
+): Promise<MultipleChoiceObject[]> => {
   const requestOptions: RequestInit = {
     method: "GET",
     mode: "cors",
@@ -8,9 +10,8 @@ const fetchQuestions = async (query: string): Promise<MultipleChoiceObject[]> =>
   };
 
   try {
-    console.log(query); // temp line to avoid TypeScript anger while waiting for API to be finished and allow params
     const response = await fetch(
-      "http://localhost:3000/search",
+      `http://localhost:3000/search?query=${query}`,
       requestOptions
     );
     const result: MultipleChoiceObject[] = await response.json();

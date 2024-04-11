@@ -33,8 +33,8 @@ const AnswerUI: FC<AnswerUIProps> = ({ option, id }) => {
   const handleSelect = () => {
     currentQuestions.forEach((question) => {
       if (question.id === id) {
-        console.log(question.multipleAnswers);
         const updatedQuestion = { ...question };
+
         updatedQuestion.answers = updatedQuestion.answers.map((choice) => {
           if (choice.text === text) {
             return { text: choice.text, selected: !choice.selected };

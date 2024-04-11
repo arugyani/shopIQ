@@ -8,25 +8,12 @@ import {
 } from "@/components/ui/resizable";
 import SearchHistory from "./components/custom/SearchHistory";
 import { ProductList } from "./components/custom/ProductList";
-import {
-  addToHistory,
-  clearHistory,
-  selectHistory,
-} from "./app/features/historySlice";
+import { selectHistory } from "./app/features/historySlice";
 import { useAppSelector } from "./app/hooks";
-import { Button } from "./components/ui/button";
-import { useDispatch } from "react-redux";
 import MultipleChoiceList from "./components/custom/MultipleChoice/MultipleChoiceList";
-import { HistoryObject } from "./types-and-interfaces";
-import { sampleHistoryObject } from "./lib/sampledata";
+
 function App() {
   const historyList = useAppSelector(selectHistory);
-  const dispatch = useDispatch();
-
-  const handleAddToHistory = () => {
-    const historyObjectToAdd = sampleHistoryObject;
-    dispatch(addToHistory(historyObjectToAdd as HistoryObject));
-  };
 
   return (
     <div className='app px-10 h-screen flex flex-col bg-[#faf9f6]'>
@@ -42,18 +29,7 @@ function App() {
         >
           <div className='flex-auto overflow-y-auto mb-8 w-full pr-4'>
             <SearchBar />
-            <div className='flex flex-col gap-1'>
-              <MultipleChoiceList />
-              <Button onClick={handleAddToHistory}>Add sample History</Button>
-              <Button
-                className='mb-4'
-                onClick={() => {
-                  dispatch(clearHistory());
-                }}
-              >
-                Clear History
-              </Button>
-            </div>
+            <MultipleChoiceList />
             <ProductList />
           </div>
         </ResizablePanel>

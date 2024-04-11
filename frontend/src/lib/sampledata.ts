@@ -206,7 +206,7 @@ export const sampleMultipleChoiceData = [
     question: "Where will you use this?",
     answers: [
       { text: "At Home", selected: true },
-      { text: "At Home", selected: false },
+      { text: "Not At Home", selected: false },
       { text: "In Office", selected: false },
       { text: "Outside", selected: false },
     ],
@@ -219,11 +219,11 @@ export const sampleMultipleChoiceData = [
     question: "Where will you use this?",
     answers: [
       { text: "At Home", selected: false },
-      { text: "At Home", selected: false },
+      { text: "Not At Home", selected: false },
       { text: "In Office", selected: false },
       { text: "Outside", selected: false },
     ],
-    other: "string",
+    other: "",
     multipleAnswers: true,
   },
   {
@@ -231,11 +231,11 @@ export const sampleMultipleChoiceData = [
     question: "Where will you use this?",
     answers: [
       { text: "At Home", selected: false },
-      { text: "At Home", selected: false },
+      { text: "Not At Home", selected: false },
       { text: "In Office", selected: false },
       { text: "Outside", selected: false },
     ],
-    other: "string",
+    other: "",
     multipleAnswers: true,
   },
   {
@@ -243,11 +243,11 @@ export const sampleMultipleChoiceData = [
     question: "Where will you use this?",
     answers: [
       { text: "At Home", selected: false },
-      { text: "At Home", selected: false },
+      { text: "Not At Home", selected: false },
       { text: "In Office", selected: false },
       { text: "Outside", selected: false },
     ],
-    other: "string",
+    other: "",
     multipleAnswers: true,
   },
 ];

@@ -1,8 +1,15 @@
-import { useAppSelector } from "@/app/hooks";
-import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { FC, useEffect } from "react";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import { ProductObject } from "@/types-and-interfaces";
-import { selectCurrentProducts, selectStatus } from "@/app/features/historySlice";
+import {
+  productsAsync,
+  selectAllQuestionsAnswered,
+  selectCurrentHistoryId,
+  selectCurrentProducts,
+  selectCurrentQuestions,
+  selectProductStatus,
+} from "@/app/features/historySlice";
 
 interface ProductProps {
   product: ProductObject;
@@ -38,9 +45,24 @@ const Product: FC<ProductProps> = ({ product }) => {
 };
 
 export const ProductList = () => {
+  const dispatch = useAppDispatch();
 
-  const status = useAppSelector(selectStatus);
-  const productList = useAppSelector(selectCurrentProducts)
+  const status = useAppSelector(selectProductStatus);
+  const productList = useAppSelector(selectCurrentProducts);
+  const allQuestionsAnswered = useAppSelector(selectAllQuestionsAnswered);
+  const currentQuestions = useAppSelector(selectCurrentQuestions);
+  const currentHistoryId = useAppSelector(selectCurrentHistoryId);
+
+  useEffect(() => {
+    if (allQuestionsAnswered) {
+      dispatch(
+        productsAsync({
+          body: JSON.stringify(currentQuestions),
+          historyId: currentHistoryId,
+        })
+      );
+    }
+  }, [currentHistoryId, currentQuestions, allQuestionsAnswered, dispatch]);
 
   return (
     <div className='mx-auto w-full h-fit grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center'>
