@@ -37,7 +37,6 @@ const getQuestions = asyncHandler(async (req, res) => {
  - Include a none option if necessary`;
 
   const llmResponse = await searchService.getLLMResponse(prompt);
-  // console.log(llmResponse);
   const processedllmResponse = removeticks(llmResponse);
   let llmResponseJSON = JSON.parse(processedllmResponse);
   for (let i = 0; i < llmResponseJSON.length; i++) {
@@ -47,10 +46,9 @@ const getQuestions = asyncHandler(async (req, res) => {
     llmResponseJSON[i] = { id, ...newObj };
     llmResponseJSON[i]["other"] = "";
   }
-  console.log(query)
-  const emojiChar = await getEmoji(query)
-  console.log(emojiChar);
+  const emojiChar = await getEmoji(query);
   resObj = {emoji: emojiChar, qs: llmResponseJSON}
+  console.log(resObj);
   res.json(resObj);
 });
 
