@@ -5,14 +5,14 @@
  * Created: 02/27/2024
  * Description: Entry point for the Express application.
  */
-require("dotenv").config();
+// require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const fetch = require("cross-fetch");
 global.fetch = fetch;
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 const searchRouter = require("./src/routes/searchRoutes");
 const recommendationRoute = require("./src/routes/recommendationRoute");
