@@ -37,7 +37,7 @@ const getQuestions = asyncHandler(async (req, res) => {
  - Include a none option if necessary`;
 
   const llmResponse = await searchService.getLLMResponse(prompt);
-  console.log(llmResponse);
+  // console.log(llmResponse);
   const processedllmResponse = removeticks(llmResponse);
   let llmResponseJSON = JSON.parse(processedllmResponse);
   for (let i = 0; i < llmResponseJSON.length; i++) {
@@ -47,7 +47,11 @@ const getQuestions = asyncHandler(async (req, res) => {
     llmResponseJSON[i] = { id, ...newObj };
     llmResponseJSON[i]["other"] = "";
   }
-  res.json(llmResponseJSON);
+  console.log(query)
+  const emojiChar = await getEmoji(query)
+  console.log(emojiChar);
+  resObj = {emoji: emojiChar, qs: llmResponseJSON}
+  res.json(resObj);
 });
 
 const removeticks = (inputString) => {
@@ -57,6 +61,12 @@ const removeticks = (inputString) => {
 
   return modifiedString;
 };
+
+const getEmoji = async (query) => {
+  const prompt = `Please provide the HTML decimal code for an emoji that best represents the concept '${query}'. Format the response as &#(decimalcode); with only the ampersand, hash, and semicolon included, and no additional text or explanation.`
+  console.log(prompt);
+  return await searchService.getLLMResponse(prompt);
+}
 
 module.exports = {
   getQuestions,
