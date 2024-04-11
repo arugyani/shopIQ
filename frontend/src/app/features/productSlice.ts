@@ -70,3 +70,4 @@ export const selectStatus = (state: RootState) => state.products.status;
 export const selectSelected = (state: RootState) => state.products.selected;
 
 export default productSlice.reducer;
+

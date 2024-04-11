@@ -1,7 +1,6 @@
-import { ProductType } from "@/app/features/productSlice";
-import { Question } from "@/app/features/questionSlice";
+import { MultipleChoiceObject, ProductObject } from "@/types-and-interfaces";
 
-const fetchQuestions = async (query: string): Promise<Question[]> => {
+const fetchQuestions = async (query: string): Promise<MultipleChoiceObject[]> => {
   const requestOptions: RequestInit = {
     method: "GET",
     mode: "cors",
@@ -14,15 +13,14 @@ const fetchQuestions = async (query: string): Promise<Question[]> => {
       "http://localhost:3000/search",
       requestOptions
     );
-    const result: Question[] = await response.json();
+    const result: MultipleChoiceObject[] = await response.json();
     return result;
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
-
-const fetchProducts = async (body: JSON): Promise<ProductType[]> => {
+const fetchProducts = async (body: JSON): Promise<ProductObject[]> => {
   const requestOptions: RequestInit = {
     method: "POST",
     mode: "cors",
@@ -36,7 +34,7 @@ const fetchProducts = async (body: JSON): Promise<ProductType[]> => {
       requestOptions
     );
 
-    const result: ProductType[] = await response.json();
+    const result: ProductObject[] = await response.json();
     return result;
   } catch (error) {
     console.error(error);
