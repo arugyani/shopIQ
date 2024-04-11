@@ -7,8 +7,6 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import SearchHistory from "./components/custom/SearchHistory";
-import InfoBlurb from "./components/custom/InfoBlurb";
-import { addToHistory, clearHistory, selectHistory } from "./app/features/historySlice";
 import { ProductList } from "./components/custom/ProductList";
 import {
   addToHistory,
@@ -160,7 +158,6 @@ function App() {
           <div className='flex-auto overflow-y-auto mb-8 w-full pr-4'>
             <ProductList />
           </div>
-          <InfoBlurb />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
