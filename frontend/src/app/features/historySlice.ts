@@ -11,9 +11,10 @@ export interface HistoryState {
   historyList: HistoryObject[];
   status: "idle" | "loading" | "failed";
   currentHistoryId: string;
+  currentProductId:string;
 }
 
-const initialState: HistoryState = { historyList: [], status: "idle", currentHistoryId:"" };
+const initialState: HistoryState = { historyList: [], status: "idle", currentHistoryId:"", currentProductId:"" };
 
 export const historySlice = createSlice({
   name: "history",
@@ -133,6 +134,10 @@ export const historySlice = createSlice({
     },
     updateCurrentHistoryId:(state,action: PayloadAction<{ historyId: string }>) => {
       state.currentHistoryId = action.payload.historyId
+      state.currentProductId = ""
+    },
+    updateCurrentProductId:(state,action: PayloadAction<{ productId: string }>) => {
+          state.currentProductId = action.payload.productId
     },
   },
   extraReducers: (builder) => {
@@ -193,7 +198,8 @@ export const {
   addProduct,
   removeProduct,
   updateProduct,
-  updateCurrentHistoryId
+  updateCurrentHistoryId,
+  updateCurrentProductId
 } = historySlice.actions;
 export default historySlice.reducer;
 const savedHistory = localStorage.getItem("history");
@@ -218,6 +224,15 @@ export const productsAsync = createAsyncThunk(
 export const selectHistory = (state: RootState) => state.history.historyList;
 export const selectStatus = (state: RootState) => state.history.status;
 export const selectCurrentHistoryId = (state: RootState) => state.history.currentHistoryId;
+export const selectCurrentProductId = (state: RootState) => state.history.currentProductId;
+export const selectCurrentProduct = (state:RootState)=>{
+  const CurrentProduct = state.history.historyList.find((historyObj)=>historyObj.id==state.history.currentHistoryId)?.products.find((product)=>product.id==state.history.currentProductId)
+  if(CurrentProduct){
+      return CurrentProduct
+    }else return {} as ProductObject
+}
+
+
 export const selectCurrentProducts = (state: RootState) => {
   const CurrentProducts = state.history.historyList.find((historyObj)=>historyObj.id==state.history.currentHistoryId)?.products
   if(CurrentProducts){

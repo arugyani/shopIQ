@@ -7,11 +7,12 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import SearchHistory from "./components/custom/SearchHistory";
-import { ProductList } from "./components/custom/ProductList";
+import { ProductList, ProductView } from "./components/custom/ProductList";
 import {
   addToHistory,
   clearHistory,
   selectCurrentHistoryId,
+  selectCurrentProductId,
   selectCurrentQuestions,
   selectHistory,
   updateQuestion,
@@ -29,6 +30,7 @@ function App() {
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
   const [interactionsExpanded, setInteractionsExpanded] = useState(false);
   const MultipleChoiceData = useAppSelector(selectCurrentQuestions);
+  const currentProductId = useAppSelector(selectCurrentProductId);
 
   const handleAddToHistory = () => {
     const historyObjectToAdd = sampleHistoryObject;
@@ -155,8 +157,8 @@ function App() {
               Clear History
             </Button>
           </div>
-          <div className='flex-auto overflow-y-auto mb-8 w-full pr-4'>
-            <ProductList />
+          <div className='flex-auto overflow-y-auto mb-8 w-full'>
+            {currentProductId==""?<ProductList />:<ProductView/>}
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
