@@ -31,7 +31,7 @@ const fetchProducts = async (body: JSON): Promise<ProductObject[]> => {
   try {
     console.log(body); // avoid TypeScript error for now
     const response = await fetch(
-      "http://shopiq.azurewebsites.net/recommendations",
+      "http://localhost:3000/recommendations",
       requestOptions
     );
 
