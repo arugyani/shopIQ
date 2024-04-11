@@ -1,0 +1,3 @@
+.app {
+  @apply px-10 h-screen flex flex-col overflow-auto;
+}

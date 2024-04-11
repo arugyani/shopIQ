@@ -5,7 +5,7 @@ import { SearchIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 
-import { questionsAsync, selectStatus } from "@/app/features/questionSlice";
+import { questionsAsync, selectStatus } from "@/app/features/historySlice";
 
 const placeholders = [
   "Cheap sports camera",
@@ -51,7 +51,7 @@ const SearchBar = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(questionsAsync(query));
+    dispatch(questionsAsync({search: query, historyId:""}));
   };
 
   const iconClasses = "text-gray-500 w-5 h-5 mr-2";
