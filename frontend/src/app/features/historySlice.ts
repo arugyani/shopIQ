@@ -164,6 +164,7 @@ export const historySlice = createSlice({
             if (historyItem.id == historyId) {
               const updatedHistoryItem = historyItem;
               updatedHistoryItem.questions = action.payload.questions;
+              updatedHistoryItem.name = action.payload.name;
               return updatedHistoryItem;
             }
             return historyItem;
