@@ -9,6 +9,7 @@ import { LoadingSpinner } from "../ui/LoadingSpinner";
 import {
   questionsAsync,
   selectCurrentHistoryId,
+  selectCurrentQuery,
   selectQuestionStatus,
   setQuestionsExpanded,
 } from "@/app/features/historySlice";
@@ -41,14 +42,17 @@ const SearchBar = () => {
 
   const status = useAppSelector(selectQuestionStatus);
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
+  const currentQuery = useAppSelector(selectCurrentQuery);
 
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (currentHistoryId === "") {
       setQuery("");
+    } else {
+      setQuery(currentQuery);
     }
-  }, [currentHistoryId]);
+  }, [currentHistoryId, currentQuery]);
 
   const randomPlaceholder = useMemo(() => {
     const randomIndex = Math.floor(Math.random() * placeholders.length);

@@ -262,6 +262,14 @@ export const selectProductStatus = (state: RootState) =>
 export const selectCurrentHistoryId = (state: RootState) =>
   state.history.currentHistoryId;
 
+export const selectCurrentQuery = (state: RootState) => {
+  const currentHistoryObj = state.history.historyList.find(
+    (historyObj) => historyObj.id == state.history.currentHistoryId
+  );
+
+  return currentHistoryObj?.name || "";
+};
+
 export const selectCurrentProducts = (state: RootState) => {
   const CurrentProducts = state.history.historyList.find(
     (historyObj) => historyObj.id == state.history.currentHistoryId
