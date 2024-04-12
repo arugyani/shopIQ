@@ -10,24 +10,24 @@ async function input_filters(browser, page, filtersJson, input, query) {
     "#sh-h-input__root > input.sh-h-input__search-form"
   );
   if (concatenatedString !== null && concatenatedString !== query) {
-    console.log(concatenatedString);
+    //console.log(concatenatedString);
     await inputElement.type(concatenatedString);
     await inputElement.press("Enter");
     await page.waitForNavigation({ waitUntil: "networkidle0" });
   }
   for (const [filterCategory, filterOptions] of Object.entries(input)) {
-    console.log("filter options");
+    //console.log("filter options");
     for (const filterOption of filterOptions) {
       let found = false;
       const filterHandles = await page.$$(".sh-dr__restricts > div");
-      console.log("filterHandles");
+      //console.log("filterHandles");
       for (const filterHandle of filterHandles) {
         const categoryText = await page.evaluate(
           //get the text content
           (el) => el.textContent,
           filterHandle
         );
-        console.log("filterHandle");
+        //console.log("filterHandle");
         if (categoryText.includes(filterCategory)) {
           //check if the correct filter list is being iterated through
           const optionSelector = `xpath/.//a[contains(., '${filterOption}')]`; //looks for the correct option
@@ -35,13 +35,13 @@ async function input_filters(browser, page, filtersJson, input, query) {
             await page.waitForSelector(optionSelector, { timeout: 1800 });
 
             const optionHandles = await filterHandle.$$(optionSelector);
-            console.log("optionHandles");
+            //console.log("optionHandles");
             if (optionHandles.length > 0) {
               await optionHandles[0].waitForClickable({ timeout: 5000 });
-              console.log("clickable");
+              //console.log("clickable");
               await optionHandles[0].click();
               found = true;
-              console.log("prenav");
+              //console.log("prenav");
               await page.waitForNavigation({ waitUntil: "networkidle0" });
               console.log(
                 `The '${filterCategory}: ${filterOption}' was found.`
