@@ -4,7 +4,7 @@ async function scrapeFilter(search) {
   const browser = await puppeteer.launch({
     headless: true,
     devtools: true,
-    args: ["--lang=en-US", '--no-sandbox']
+    args: ["--lang=en-US"],
   });
   const page = await browser.newPage();
   await page.goto("https://shopping.google.com/", {
