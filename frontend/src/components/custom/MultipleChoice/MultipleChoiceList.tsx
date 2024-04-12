@@ -1,15 +1,16 @@
 import {
   selectCurrentHistoryId,
   selectCurrentQuestions,
+  setQuestionsExpanded,
 } from "@/app/features/historySlice";
-import { useAppSelector } from "@/app/hooks";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import SummaryChoices from "./SummaryChoices";
 import { MultipleChoice } from "./MultipleChoice";
 
 const MultipleChoiceList = () => {
-  const [expanded, setExpanded] = useState(true);
+  const dispatch = useAppDispatch();
 
+  const expanded = useAppSelector((state) => state.history.questionsExpanded);
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
   const currentQuestions = useAppSelector(selectCurrentQuestions);
 
@@ -26,16 +27,13 @@ const MultipleChoiceList = () => {
             })}
             <div
               className='text-sm mb-4 hover:underline hover:text-blue-400 cursor-pointer'
-              onClick={() => setExpanded(false)}
+              onClick={() => dispatch(setQuestionsExpanded(false))}
             >
               Minimize
             </div>
           </>
         ) : (
-          <SummaryChoices
-            setExpanded={setExpanded}
-            questions={currentQuestions}
-          />
+          <SummaryChoices questions={currentQuestions} />
         )}
       </>
     )

@@ -10,6 +10,7 @@ import { fetchProducts, fetchQuestions } from "@/api/useFetch";
 export interface HistoryState {
   historyList: HistoryObject[];
   currentHistoryId: string;
+  questionsExpanded: boolean;
   questionStatus: "idle" | "loading" | "failed";
   productStatus: "idle" | "loading" | "failed";
 }
@@ -17,6 +18,7 @@ export interface HistoryState {
 const initialState: HistoryState = {
   historyList: [],
   currentHistoryId: "",
+  questionsExpanded: true,
   questionStatus: "idle",
   productStatus: "idle",
 };
@@ -143,6 +145,9 @@ export const historySlice = createSlice({
     ) => {
       state.currentHistoryId = action.payload.historyId;
     },
+    setQuestionsExpanded: (state, action: PayloadAction<boolean>) => {
+      state.questionsExpanded = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -218,6 +223,7 @@ export const {
   removeProduct,
   updateProduct,
   updateCurrentHistoryId,
+  setQuestionsExpanded,
 } = historySlice.actions;
 export default historySlice.reducer;
 

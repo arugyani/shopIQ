@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { v4 as uuid } from "uuid";
 
@@ -10,6 +10,7 @@ import {
   questionsAsync,
   selectCurrentHistoryId,
   selectQuestionStatus,
+  setQuestionsExpanded,
 } from "@/app/features/historySlice";
 
 const placeholders = [
@@ -43,6 +44,12 @@ const SearchBar = () => {
 
   const [query, setQuery] = useState("");
 
+  useEffect(() => {
+    if (currentHistoryId === "") {
+      setQuery("");
+    }
+  }, [currentHistoryId]);
+
   const randomPlaceholder = useMemo(() => {
     const randomIndex = Math.floor(Math.random() * placeholders.length);
     return placeholders[randomIndex];
@@ -62,7 +69,7 @@ const SearchBar = () => {
     const historyId = currentHistoryId !== "" ? currentHistoryId : uuid();
 
     dispatch(questionsAsync({ search: query, historyId }));
-    setQuery("");
+    dispatch(setQuestionsExpanded(true));
   };
 
   const iconClasses = "text-gray-500 w-5 h-5 mr-2";
