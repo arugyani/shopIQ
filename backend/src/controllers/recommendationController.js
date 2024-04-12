@@ -17,18 +17,32 @@ const getProductList = asyncHandler(async (req, res) => {
     Output should be formatted the exact same as the filters just only with the selected filters in a JSON format the key should be the same as the filter and the value should be the selected filter. The value should be the exact same string as the filters JSON. Only output the JSON without the blanks make sure the JSON removed the filters that are blank.
     Output format:
     {
-      'Filter Category': 'Selected value',
-      'Filter Category': 'Selected value',
+      'Filter Category': ['Selected value'],
+      'Filter Category': ['Selected value'],
       ...
     }
   "### questions and Answers ###"\n,
   ${JSON.stringify(questionResponses)},
   \n###FILTERS###\n${JSON.stringify(filtersJson)}
  `;
-
-  const selectedFilters = await searchService.getLLMResponse(prompt1);
-  const selectedFiltersProcessed = preprocessJSON(selectedFilters);
-  const selectedFiltersJSON = JSON.parse(selectedFiltersProcessed);
+  let selectedFiltersJSON = null;
+  for (let i = 0; i < 5; i++) {
+    try {
+      const selectedFilters = await searchService.getLLMResponse(prompt1);
+      const selectedFiltersProcessed = preprocessJSON(selectedFilters);
+      selectedFiltersJSON = JSON.parse(selectedFiltersProcessed);
+      if (
+        Object.values(selectedFiltersJSON).every((value) =>
+          Array.isArray(value)
+        )
+      ) {
+        console.log();
+        break;
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   console.log(selectedFiltersJSON);
   const products = await input_filters.input_filters(
@@ -46,8 +60,8 @@ const getProductList = asyncHandler(async (req, res) => {
 
   console.log(productsJSON);
   let rankedProductsJSON;
-for(let i = 0; i < 5; i++){
-    try { 
+  for (let i = 0; i < 5; i++) {
+    try {
       const prompt2 = `### Prompt ###
       Given a list of products with their names, review keywords, product details, average review score, number of reviews, and price from Google Shopping, your task is to rank these products from best to worst based on the following criteria: overall review score (consider the number of reviews), price (considering value for money, lower is better), and the positivity of review keywords. 
       Output the ranked list in JSON format, including the product name, pros, cons, 3 key words about the product as "bullets". Give a max of 4 pros or cons and a min of 1. 
@@ -92,14 +106,13 @@ for(let i = 0; i < 5; i++){
       console.log(rankedProducts);
       console.log(i);
       rankedProductsJSON = JSON.parse(rankedProductsProcessed);
-      
+
       break;
-  } catch (error) {
-    console.log(error.message);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
-}
-  
   const firstArray = rankedProductsJSON.ranked_products;
   const secondArray = productsJSON;
 
@@ -111,7 +124,9 @@ for(let i = 0; i < 5; i++){
       mergeProperties(rankedProductsJSON.ranked_products[index], secondObj);
     }
   });
-  const ranked_products_merged = { ranked_products: rankedProductsJSON.ranked_products };
+  const ranked_products_merged = {
+    ranked_products: rankedProductsJSON.ranked_products,
+  };
   console.log(JSON.stringify(ranked_products_merged, null, 2));
   //console.log(rankedProductsJSON);
   res.json(ranked_products_merged);

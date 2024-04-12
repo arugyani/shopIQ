@@ -32,13 +32,14 @@ async function input_filters(browser, page, filtersJson, input, query) {
           //check if the correct filter list is being iterated through
           const optionSelector = `xpath/.//a[contains(., '${filterOption}')]`; //looks for the correct option
           try {
-            await page.waitForSelector(optionSelector, { timeout: 1800 });
+            await page.waitForSelector(optionSelector, {
+              visible: true,
+              timeout: 2000,
+            });
 
             const optionHandles = await filterHandle.$$(optionSelector);
             //console.log("optionHandles");
             if (optionHandles.length > 0) {
-              await optionHandles[0].waitForClickable({ timeout: 5000 });
-              //console.log("clickable");
               await optionHandles[0].click();
               found = true;
               //console.log("prenav");
