@@ -3,6 +3,6 @@ const router = express.Router();
 
 const searchController = require("../controllers/searchController");
 
-router.get("/", searchController.getLLMResponse);
+router.route("/:query").get(searchController.getQuestions);
 
 module.exports = router;
