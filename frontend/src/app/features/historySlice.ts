@@ -39,6 +39,7 @@ export const historySlice = createSlice({
     },
     clearHistory: (state) => {
       state.historyList = [];
+      state.currentHistoryId = "";
       localStorage.removeItem("history");
     },
     addQuestion: (
