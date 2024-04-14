@@ -3,8 +3,8 @@ const puppeteer = require("puppeteer");
 async function scrapeFilter(search) {
   const browser = await puppeteer.launch({
     headless: true,
-    devtools: true,
-    args: ["--lang=en-US"],
+    devtools: false,
+    args: ['--no-sandbox'],
   });
   const page = await browser.newPage();
   await page.goto("https://shopping.google.com/", {
