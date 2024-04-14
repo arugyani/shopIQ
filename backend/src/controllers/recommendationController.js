@@ -114,7 +114,6 @@ const getProductList = asyncHandler(async (req, res) => {
   }
 
   const firstArray = rankedProductsJSON.ranked_products;
-  const secondArray = productsJSON;
 
   productsJSON.forEach((secondObj) => {
     const index = rankedProductsJSON.ranked_products.findIndex(
@@ -127,15 +126,18 @@ const getProductList = asyncHandler(async (req, res) => {
   const ranked_products_merged = {
     ranked_products: rankedProductsJSON.ranked_products,
   };
-  console.log(JSON.stringify(ranked_products_merged, null, 2));
+
+  console.log(JSON.stringify(rankedProductsJSON.ranked_products, null, 2));
+
   //console.log(rankedProductsJSON);
-  res.json(ranked_products_merged);
+  res.json(rankedProductsJSON.ranked_products);
 });
 
 const mergeProperties = (obj1, obj2) => {
   obj1.prodLink = obj2.prodLink;
   obj1.imgLink = obj2.imgLink;
   obj1.price = obj2.price;
+  obj1.reviews = obj2.reviews;
 };
 
 const preprocessJSON = (jsonString) => {
