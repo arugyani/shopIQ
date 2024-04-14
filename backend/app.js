@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 const searchRouter = require("./src/routes/searchRoutes");
 const recommendationRoute = require("./src/routes/recommendationRoute");
 
-// app.use(cors());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
