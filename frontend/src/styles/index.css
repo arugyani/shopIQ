@@ -33,6 +33,28 @@ body,
   width: 100%;
 }
 
+.blue-link {
+  position: relative;
+  transition: all 300ms ease;
+}
+
+.blue-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  height: 1px;
+  width: 0%;
+
+  background-color: #3b82f6;
+  transition: width 300ms ease;
+}
+
+.blue-link:hover::after {
+  width: 100%;
+}
+
 /* SEARCH BAR */
 .search-bar .focus-visible {
   --tw-ring-offset-shadow: none;

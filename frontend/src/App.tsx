@@ -7,7 +7,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import SearchHistory from "./components/custom/SearchHistory";
-import { ProductList } from "./components/custom/ProductList";
+import { ProductList } from "./components/custom/ProductList/ProductList";
 import { selectHistory } from "./app/features/historySlice";
 import { useAppSelector } from "./app/hooks";
 import MultipleChoiceList from "./components/custom/MultipleChoice/MultipleChoiceList";
