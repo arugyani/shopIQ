@@ -1,8 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.post('/', (req,res) => {
-    res.send('This is the recommendation route')
-});
+const recommendationController = require("../controllers/recommendationController");
+
+router.route("/:query").post(recommendationController.getProductList);
+
+//router.post("/", recommendationController.getProductList);
 
 module.exports = router;
