@@ -258,8 +258,15 @@ export const questionsAsync = createAsyncThunk(
 
 export const productsAsync = createAsyncThunk(
   "products/fetchProducts",
-  async (query: { query: string; body: string; historyId: string }) => {
-    const response = await fetchProducts(query.query, JSON.parse(query.body));
+  async (query: {
+    query: string;
+    body: MultipleChoiceObject[];
+    historyId: string;
+  }) => {
+    const response = await fetchProducts(
+      query.query,
+      JSON.stringify(query.body)
+    );
     return { products: response, historyId: query.historyId };
   }
 );

@@ -23,16 +23,17 @@ const fetchQuestions = async (
 };
 const fetchProducts = async (
   query: string,
-  body: JSON
+  body: string
 ): Promise<ProductObject[]> => {
   const requestOptions: RequestInit = {
     method: "POST",
     mode: "cors",
     redirect: "follow",
+    body,
   };
 
   try {
-    console.log(body); // avoid TypeScript error for now
+    // console.log(body); // avoid TypeScript error for now
     const response = await fetch(
       `http://localhost:3000/recommendations/${query}`,
       requestOptions

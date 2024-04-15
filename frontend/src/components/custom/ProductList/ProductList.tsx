@@ -78,7 +78,7 @@ export const ProductList = () => {
         dispatch(
           productsAsync({
             query: currentQuery,
-            body: JSON.stringify(currentQuestions),
+            body: currentQuestions,
             historyId: currentHistoryId,
           })
         );
