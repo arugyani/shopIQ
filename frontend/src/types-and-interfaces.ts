@@ -6,16 +6,8 @@ export interface HistoryObject {
   products: ProductObject[];
 }
 
-export interface MultipleChoiceObject {
-  id:string;
-  question: string;
-  answers: {text:string, selected: boolean}[];
-  multipleAnswers: boolean;
-  other: string;
-}
-
-export interface ProductObject  {
-  id:string;
+export interface ProductObject {
+  id: string;
   title: string;
   imgLink: string;
   bullets: string[];
@@ -24,4 +16,19 @@ export interface ProductObject  {
   price: string;
   reviewScore: string;
   numReviews: string;
+}
+
+/* MULTIPLE CHOICE */
+
+export interface MultipleChoiceObject {
+  id: string;
+  question: string;
+  answers: AnswerType[];
+  multipleAnswers: boolean;
+  other: string;
+}
+
+export type AnswerType = {
+  text: string;
+  selected: boolean;
 };
