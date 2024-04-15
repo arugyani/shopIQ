@@ -1,4 +1,5 @@
 const searchService = require("../services/searchService");
+const otherService = require("../services/otherService");
 const asyncHandler = require("express-async-handler");
 const scrapeFilter = require("../services/scrape_filers");
 const input_filters = require("../services/input_filters");
@@ -7,6 +8,14 @@ const getProductList = asyncHandler(async (req, res) => {
   const questionResponses = await req.body;
   const { query } = await req.params;
   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
+
+  const otherHandle = await otherService.getOtherLLMResponse(questionResponses);
+  const invalidIDs = getInvalidIds(otherHandle);
+
+  if(invalidIDs.length !== 0){
+    return res.status(400).json({message: `Invalid other response at ids: ${invalidIDs}`});
+  }
+
 
   const prompt1 = `TASK: "Your task is to analyze user input provided in JSON format, which includes a series of questions and their answers.
   Based on this information, you will generalize and make selections for product filters that best match the user's criteria.
@@ -144,6 +153,18 @@ const preprocessJSON = (jsonString) => {
   let string_without_ticks = lines.join("\n");
 
   return string_without_ticks;
+};
+
+const getInvalidIds = (jsonArray) => {
+  const invalidIds = [];
+  
+  jsonArray.forEach(obj => {
+    if (obj.valid === false) {
+      invalidIds.push(obj.id);
+    }
+  });
+  
+  return invalidIds;
 };
 
 module.exports = {
