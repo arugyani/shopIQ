@@ -58,6 +58,11 @@ const getQuestions = asyncHandler(async (req, res) => {
     console.error("Failed after 10 attempts.");
   }
 
+
+  const llmResponse = await searchService.getLLMResponse(prompt);
+  const processedllmResponse = removeticks(llmResponse);
+  llmResponseJSON = JSON.parse(processedllmResponse);
+
   for (let i = 0; i < llmResponseJSON.length; i++) {
     const id = i.toString();
     const newObj = { id, ...llmResponseJSON[i] };
@@ -65,8 +70,13 @@ const getQuestions = asyncHandler(async (req, res) => {
     llmResponseJSON[i] = { id, ...newObj };
     llmResponseJSON[i]["other"] = "";
   }
+
   addSelectedField(llmResponseJSON);
-  res.json(llmResponseJSON);
+  
+  const emojiChar = await getEmoji(query);
+  resObj = {emoji: emojiChar, qs: llmResponseJSON}
+  console.log(resObj);
+  res.json(resObj);
 });
 
 const removeticks = (inputString) => {
@@ -77,12 +87,20 @@ const removeticks = (inputString) => {
   return modifiedString;
 };
 
+
+const getEmoji = async (query) => {
+  const prompt = `Please provide the HTML decimal code for an emoji that best represents the concept '${query}'. Format the response as &#(decimalcode); with only the ampersand, hash, and semicolon included, and no additional text or explanation.`
+  console.log(prompt);
+  return await searchService.getLLMResponse(prompt);
+}
+
 function addSelectedField(jsonData) {
   for (const question of jsonData) {
     for (const answer of question.answers) {
       answer.selected = false;
     }
   }
+
 }
 
 module.exports = {
