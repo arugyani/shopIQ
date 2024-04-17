@@ -104,6 +104,7 @@ export const ProductView = () => {
   const selectedProduct = useAppSelector(selectCurrentProduct);
   const { title, imgLink, prodLink, price, bullets, pros, cons } =
     selectedProduct;
+
   const dispatch = useAppDispatch();
 
   return (
@@ -120,7 +121,7 @@ export const ProductView = () => {
         {imgLink !== null && (
           <img
             src={imgLink}
-            className={`max-w-[200px] px-4 py-2 mb-4 bg-white drop-shadow rounded p-2`}
+            className={`max-w-[350px] px-4 py-2 mb-4 bg-white drop-shadow rounded p-2`}
           />
         )}
 
@@ -136,7 +137,7 @@ export const ProductView = () => {
             className='blue-link text-lg font-bold mr-4 text-blue-500'
             href={prodLink}
           >
-            {title.length <= 20 ? title : `${title.substring(0, 20)}...`}
+            {title}
           </a>
           <h3 className='text-lg font-light text-gray-500'>{price}</h3>
         </div>
