@@ -14,7 +14,7 @@ export interface ProConItemProps {
 
 const ProConItem: FC<ProConItemProps> = ({ text, value, color }) => {
   return (
-    <div className='grid grid-cols-2 items-center'>
+    <div className='grid grid-cols-2 items-center gap-2'>
       <h1 className='text-md font-bold text-left'>{text}</h1>
       <div
         className='h-4 rounded-r-3xl'
@@ -32,7 +32,7 @@ const ProConList: FC<ProConListProps> = ({ pros, cons }) => {
   const red = "#f87171";
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-6'>
       {Object.entries(pros).map(([key, value]) => (
         <ProConItem key={key} text={key} value={value} color={green} />
       ))}

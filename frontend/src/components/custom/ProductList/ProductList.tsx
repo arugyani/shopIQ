@@ -109,15 +109,15 @@ export const ProductView = () => {
 
   return (
     <div className='flex flex-row p-8 border rounded-lg h-fit'>
-      <div
-        className='flex my-2 gap-2 h-fit w-fit text-gray-500 hover:underline hover:text-blue-400 cursor-pointer'
-        onClick={() => {
-          dispatch(updateCurrentProductId({ productId: "" }));
-        }}
-      >
-        <ArrowLeftCircle />
-      </div>
       <div className='basis-1/2 flex flex-col justify-center items-center px-4'>
+        <div
+          className='flex my-2 gap-2 h-fit w-full text-gray-500 hover:underline hover:text-blue-400 cursor-pointer'
+          onClick={() => {
+            dispatch(updateCurrentProductId({ productId: "" }));
+          }}
+        >
+          <ArrowLeftCircle /> Back
+        </div>
         {imgLink !== null && (
           <img
             src={imgLink}
@@ -125,9 +125,11 @@ export const ProductView = () => {
           />
         )}
 
-        <ul className='list-disc mx-4'>
+        <ul className='list-disc mx-4 w-full'>
           {bullets.map((bullet, index) => (
-            <li key={index}>{bullet}</li>
+            <li className='my-4' key={index}>
+              {bullet}
+            </li>
           ))}
         </ul>
       </div>
@@ -141,7 +143,7 @@ export const ProductView = () => {
           </a>
           <h3 className='text-lg font-light text-gray-500'>{price}</h3>
         </div>
-        <div className='flex flex-col w-full items-center gap-2'>
+        <div className='flex flex-col mt-8 w-full items-center gap-2'>
           <ProConList pros={pros} cons={cons} />
         </div>
       </div>
