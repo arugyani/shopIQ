@@ -26,6 +26,7 @@ export interface MultipleChoiceObject {
   answers: AnswerType[];
   multipleAnswers: boolean;
   other: string;
+  questionInfo?: string;
 }
 
 export type AnswerType = {
