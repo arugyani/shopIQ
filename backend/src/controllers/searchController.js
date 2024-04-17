@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const scrapeFilter = require("../services/scrape_filers");
 const input_filters = require("../services/input_filters");
 const getQuestions = asyncHandler(async (req, res) => {
-  const { query } = req.params;
+  const { query } = await req.params;
   console.log(query);
 
   const prompt = `Given the context of identifying a user's ${query} needs, particularly for beginners, create a simplified questionnaire. The goal is to make the process user-friendly while capturing essential preferences and requirements related to ${query} usage.
@@ -15,10 +15,10 @@ const getQuestions = asyncHandler(async (req, res) => {
      "questionInfo": "Informational blurb about the question and options, if needed", 
      "multipleAnswers": true, 
      "answers": [ 
-         {"text": "Option 1, max 5 words",  "selected": false}, 
-         {"text": "Option 1, max 5 words",  "selected": false}, 
-         {"text": "Option 1, max 5 words",  "selected": false}, 
-         {"text": "Option 1, max 5 words",  "selected": false}
+         {"text": "Option 1, max 5 words"}, 
+         {"text": "Option 1, max 5 words"}, 
+         {"text": "Option 1, max 5 words"}, 
+         {"text": "Option 1, max 5 words"}
      ]
  }
  ...
@@ -26,19 +26,43 @@ const getQuestions = asyncHandler(async (req, res) => {
  
  - Continue this JSON format for up 4-6 questions in total,
  - each question based on the user's previous response.
+ - Add quesionInfo if there is any chance that someone may be confused with the quesion or answer choice. Explain the specific answer choices as well as the quesion if necessary.
+ - Include the "questionInfo" field with an informational blurb if the question and options require technical knowledge or information not widely known to the general public.
  - ensure that question info is not null
  - Keep the question on the general side
  - Set "multipleAnswers" to true or false for each question to indicate whether multiple answer selections are allowed. 
- - Include the "questionInfo" field with an informational blurb if the question and options require technical knowledge or information not widely known to the general public.
  - Ensure sure that the options have a max of 4 options
  - Ensure that only the JSON is being outputted. The JSON should be able to be parsed without any preprocessing
  - Dont include an other option
  - Make sure that the questions are generated in a way that gives you as much information as you can
  - Include a none option if necessary`;
+  let attempts = 0;
+  let llmResponseJSON = null;
+
+  while (attempts < 20) {
+    try {
+      const llmResponse = await searchService.getLLMResponse(prompt);
+      const processedllmResponse = removeticks(llmResponse);
+      llmResponseJSON = JSON.parse(processedllmResponse);
+      console.log("success");
+      break;
+    } catch (error) {
+      console.error("Error: ", error);
+      attempts++;
+      await new Promise((resolve) => setTimeout(resolve, 500)); // 500 milliseconds delay
+      console.log("trying again");
+    }
+  }
+
+  if (attempts === 20) {
+    console.error("Failed after 10 attempts.");
+  }
+
 
   const llmResponse = await searchService.getLLMResponse(prompt);
   const processedllmResponse = removeticks(llmResponse);
   let llmResponseJSON = JSON.parse(processedllmResponse);
+
   for (let i = 0; i < llmResponseJSON.length; i++) {
     const id = i.toString();
     const newObj = { id, ...llmResponseJSON[i] };
@@ -46,6 +70,9 @@ const getQuestions = asyncHandler(async (req, res) => {
     llmResponseJSON[i] = { id, ...newObj };
     llmResponseJSON[i]["other"] = "";
   }
+
+  addSelectedField(llmResponseJSON);
+  
   const emojiChar = await getEmoji(query);
   resObj = {emoji: emojiChar, qs: llmResponseJSON}
   console.log(resObj);
@@ -60,10 +87,19 @@ const removeticks = (inputString) => {
   return modifiedString;
 };
 
+
 const getEmoji = async (query) => {
   const prompt = `Please provide the HTML decimal code for an emoji that best represents the concept '${query}'. Format the response as &#(decimalcode); with only the ampersand, hash, and semicolon included, and no additional text or explanation.`
   console.log(prompt);
   return await searchService.getLLMResponse(prompt);
+
+function addSelectedField(jsonData) {
+  for (const question of jsonData) {
+    for (const answer of question.answers) {
+      answer.selected = false;
+    }
+  }
+
 }
 
 module.exports = {
