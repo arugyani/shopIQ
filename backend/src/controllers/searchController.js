@@ -61,7 +61,7 @@ const getQuestions = asyncHandler(async (req, res) => {
 
   const llmResponse = await searchService.getLLMResponse(prompt);
   const processedllmResponse = removeticks(llmResponse);
-  let llmResponseJSON = JSON.parse(processedllmResponse);
+  llmResponseJSON = JSON.parse(processedllmResponse);
 
   for (let i = 0; i < llmResponseJSON.length; i++) {
     const id = i.toString();
@@ -92,6 +92,7 @@ const getEmoji = async (query) => {
   const prompt = `Please provide the HTML decimal code for an emoji that best represents the concept '${query}'. Format the response as &#(decimalcode); with only the ampersand, hash, and semicolon included, and no additional text or explanation.`
   console.log(prompt);
   return await searchService.getLLMResponse(prompt);
+}
 
 function addSelectedField(jsonData) {
   for (const question of jsonData) {
