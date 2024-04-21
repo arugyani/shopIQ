@@ -21,6 +21,7 @@ const fetchQuestions = async (
     throw error;
   }
 };
+
 const fetchProducts = async (
   query: string,
   body: string
@@ -30,6 +31,9 @@ const fetchProducts = async (
     mode: "cors",
     redirect: "follow",
     body,
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   try {
