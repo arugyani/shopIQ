@@ -18,14 +18,20 @@ const scrapeProductLinks = async (page, browser) => {
   //console.log(productLinks);
 
   productMotherLoad = [];
-
-  const scrapeLimit = Math.min(productLinks.length, 10);
+  const googleShoppingLinks = productLinks.filter((link) =>
+    /google\.com\/shopping/.test(link)
+  );
+  console.log(googleShoppingLinks);
+  const scrapeLimit = Math.min(googleShoppingLinks.length, 10);
   for (let i = 0; i < scrapeLimit; i++) {
     try {
-      const prod = await scrapeProduct(productLinks[i], browser);
+      const prod = await scrapeProduct(googleShoppingLinks[i], browser);
       productMotherLoad.push(prod);
     } catch (error) {
-      console.error(`Error scraping product at ${productLinks[i]}:`, error);
+      console.error(
+        `Error scraping product at ${googleShoppingLinks[i]}:`,
+        error
+      );
     }
   }
   productsJSON = JSON.stringify(productMotherLoad, null, 2);
@@ -50,10 +56,9 @@ const scrapeTextMap = async (page, query) => {
 const scrapeImageSrc = async (page) => {
   const imageUrl = await page.evaluate(() => {
     var imageElement = document.querySelector(".Xkiaqc.sm3F0e img");
-    if (imageElement){
-      return imageElement.src
-    }
-    else {
+    if (imageElement) {
+      return imageElement.src;
+    } else {
       imageElement = document.querySelector(".TiQ3Vc main-image");
     }
     return imageElement ? imageElement.src : null;

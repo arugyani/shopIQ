@@ -135,7 +135,9 @@ const getProductList = asyncHandler(async (req, res) => {
   const ranked_products_merged = {
     ranked_products: rankedProductsJSON.ranked_products,
   };
+
   console.log(JSON.stringify(rankedProductsJSON.ranked_products, null, 2));
+
   //console.log(rankedProductsJSON);
   res.json(rankedProductsJSON.ranked_products);
 });
