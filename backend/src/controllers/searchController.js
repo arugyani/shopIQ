@@ -89,7 +89,7 @@ const removeticks = (inputString) => {
 
 
 const getEmoji = async (query) => {
-  const prompt = `Please provide the HTML decimal code for an emoji that best represents the concept '${query}'. Format the response as &#(decimalcode); with only the ampersand, hash, and semicolon included, and no additional text or explanation.`
+  const prompt = `Please provide the HTML decimal code for an emoji that most closely matches the product, '${query}', keep emoji relevant to item. Format the response as &#(decimalcode); with only the ampersand, hash, and semicolon included, and no additional text or explanation.`
   console.log(prompt);
   return await searchService.getLLMResponse(prompt);
 }
