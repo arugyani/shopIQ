@@ -21,7 +21,7 @@ const scrapeProductLinks = async (page, browser) => {
   const googleShoppingLinks = productLinks.filter((link) =>
     /google\.com\/shopping/.test(link)
   );
-  console.log(googleShoppingLinks);
+  //console.log(googleShoppingLinks);
   const scrapeLimit = Math.min(googleShoppingLinks.length, 10);
   for (let i = 0; i < scrapeLimit; i++) {
     try {

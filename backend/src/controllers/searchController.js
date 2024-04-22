@@ -29,13 +29,15 @@ const getQuestions = asyncHandler(async (req, res) => {
  - Add quesionInfo if there is any chance that someone may be confused with the quesion or answer choice. Explain the specific answer choices as well as the quesion if necessary.
  - Include the "questionInfo" field with an informational blurb if the question and options require technical knowledge or information not widely known to the general public.
  - ensure that question info is not null
- - Keep the question on the general side
+ - Keep the question on the general side meaning dont put specific numbers
  - Set "multipleAnswers" to true or false for each question to indicate whether multiple answer selections are allowed. 
  - Ensure sure that the options have a max of 4 options
  - Ensure that only the JSON is being outputted. The JSON should be able to be parsed without any preprocessing
  - Dont include an other option
  - Make sure that the questions are generated in a way that gives you as much information as you can
- - Include a none option if necessary`;
+ - Include a none option if necessary
+ - Dont ask a question about the user budget or price range
+ - For clothing items or other gender specific items ask if for men or women`;
   let attempts = 0;
   let llmResponseJSON = null;
 
