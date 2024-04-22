@@ -1,6 +1,7 @@
 const dummyOtherData = require("../dummy/handleOtherData.json");
 const searchService = require("./searchService")
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { jsonrepair } = require("jsonrepair");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const getOtherLLMResponse = async (input) => {
@@ -44,7 +45,8 @@ const getOtherLLMResponse = async (input) => {
       try{
         const result = (await searchService.getLLMResponse(prompt));
         console.log(result);
-        processedResult = JSON.parse(result);
+        const repairedResultJSON = jsonrepair(result);
+        processedResult = JSON.parse(repairedResultJSON);
       break;
       } catch(error){
         console.log(error.message);
@@ -57,7 +59,7 @@ const getOtherLLMResponse = async (input) => {
   function filterJSON(data) {
     const filteredQuestions = [];
     data.forEach(question => {
-        if (question.other) {
+        if (question.other !== "") {
             filteredQuestions.push({
                 id: question.id,
                 question: question.question,
