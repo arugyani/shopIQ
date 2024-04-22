@@ -4,11 +4,12 @@ const scrapeFilter = require("../services/scrape_filers");
 const input_filters = require("../services/input_filters");
 
 const getProductList = asyncHandler(async (req, res) => {
-  const questionResponses = await req.body;
-  const { query } = await req.params;
-  const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
+  try {
+    const questionResponses = await req.body;
+    const { query } = await req.params;
+    const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
 
-  const prompt1 = `TASK: "Your task is to analyze user input provided in JSON format, which includes a series of questions and their answers.
+    const prompt1 = `TASK: "Your task is to analyze user input provided in JSON format, which includes a series of questions and their answers.
   Based on this information, you will generalize and make selections for product filters that best match the user's criteria.
   If none of the given options are selected, the selected answer is in the other. Always check the “other:” in the answers and if its not blank consider that to be the answer to the question asked.
    If all of the filters should be selected just leave it blank. Focus on interpreting the nuances in the user's responses to select the most appropriate filters. Necessity is not required focus on the responses.
@@ -25,44 +26,44 @@ const getProductList = asyncHandler(async (req, res) => {
   ${JSON.stringify(questionResponses)},
   \n###FILTERS###\n${JSON.stringify(filtersJson)}
  `;
-  let selectedFiltersJSON = null;
-  for (let i = 0; i < 5; i++) {
-    try {
-      const selectedFilters = await searchService.getLLMResponse(prompt1);
-      const selectedFiltersProcessed = preprocessJSON(selectedFilters);
-      selectedFiltersJSON = JSON.parse(selectedFiltersProcessed);
-      if (
-        Object.values(selectedFiltersJSON).every((value) =>
-          Array.isArray(value)
-        )
-      ) {
-        console.log();
-        break;
+    let selectedFiltersJSON = null;
+    for (let i = 0; i < 5; i++) {
+      try {
+        const selectedFilters = await searchService.getLLMResponse(prompt1);
+        const selectedFiltersProcessed = preprocessJSON(selectedFilters);
+        selectedFiltersJSON = JSON.parse(selectedFiltersProcessed);
+        if (
+          Object.values(selectedFiltersJSON).every((value) =>
+            Array.isArray(value)
+          )
+        ) {
+          console.log();
+          break;
+        }
+      } catch (error) {
+        console.error(error.message);
       }
-    } catch (error) {
-      console.error(error.message);
     }
-  }
 
-  console.log(selectedFiltersJSON);
-  const products = await input_filters.input_filters(
-    browser,
-    page,
-    filtersJson,
-    selectedFiltersJSON,
-    query
-  );
-  let productsJSON = JSON.parse(products);
-  for (let i = 0; i < productsJSON.length; i++) {
-    const id = i.toString();
-    productsJSON[i]["id"] = id;
-  }
+    console.log(selectedFiltersJSON);
+    const products = await input_filters.input_filters(
+      browser,
+      page,
+      filtersJson,
+      selectedFiltersJSON,
+      query
+    );
+    let productsJSON = JSON.parse(products);
+    for (let i = 0; i < productsJSON.length; i++) {
+      const id = i.toString();
+      productsJSON[i]["id"] = id;
+    }
 
-  console.log(productsJSON);
-  let rankedProductsJSON;
-  for (let i = 0; i < 5; i++) {
-    try {
-      const prompt2 = `### Prompt ###
+    console.log(productsJSON);
+    let rankedProductsJSON;
+    for (let i = 0; i < 5; i++) {
+      try {
+        const prompt2 = `### Prompt ###
       Given a list of products with their names, review keywords, product details, average review score, number of reviews, and price from Google Shopping, your task is to rank these products from best to worst based on the following criteria: overall review score (consider the number of reviews), price (considering value for money, lower is better), and the positivity of review keywords. 
       Output the ranked list in JSON format, including the product name, pros, cons, 3 key words about the product as "bullets". Give a max of 4 pros or cons and a min of 1. 
       For pros and cons consider categories and rank the product on that category out of 10. This should only be a string of a number with no other text or chars.
@@ -100,37 +101,40 @@ const getProductList = asyncHandler(async (req, res) => {
       When there is a quote in the JSON value add a backslash so the JSON is parseable. \n
       
       Product JSON:\n ${JSON.stringify(productsJSON)}`;
-      const rankedProducts = await searchService.getLLMResponse(prompt2);
-      const rankedProductsProcessed = preprocessJSON(rankedProducts);
-      console.log("ranked products");
-      console.log(rankedProducts);
-      console.log(i);
-      rankedProductsJSON = JSON.parse(rankedProductsProcessed);
+        const rankedProducts = await searchService.getLLMResponse(prompt2);
+        const rankedProductsProcessed = preprocessJSON(rankedProducts);
+        console.log("ranked products");
+        console.log(rankedProducts);
+        console.log(i);
+        rankedProductsJSON = JSON.parse(rankedProductsProcessed);
 
-      break;
-    } catch (error) {
-      console.log(error.message);
+        break;
+      } catch (error) {
+        console.log(error.message);
+      }
     }
+
+    const firstArray = rankedProductsJSON.ranked_products;
+
+    productsJSON.forEach((secondObj) => {
+      const index = rankedProductsJSON.ranked_products.findIndex(
+        (firstObj) => firstObj.id === secondObj.id
+      );
+      if (index !== -1) {
+        mergeProperties(rankedProductsJSON.ranked_products[index], secondObj);
+      }
+    });
+    const ranked_products_merged = {
+      ranked_products: rankedProductsJSON.ranked_products,
+    };
+
+    console.log(JSON.stringify(rankedProductsJSON.ranked_products, null, 2));
+
+    //console.log(rankedProductsJSON);
+    res.json(rankedProductsJSON.ranked_products);
+  } catch (e) {
+    return { statusCode: 500, error: e.message };
   }
-
-  const firstArray = rankedProductsJSON.ranked_products;
-
-  productsJSON.forEach((secondObj) => {
-    const index = rankedProductsJSON.ranked_products.findIndex(
-      (firstObj) => firstObj.id === secondObj.id
-    );
-    if (index !== -1) {
-      mergeProperties(rankedProductsJSON.ranked_products[index], secondObj);
-    }
-  });
-  const ranked_products_merged = {
-    ranked_products: rankedProductsJSON.ranked_products,
-  };
-
-  console.log(JSON.stringify(rankedProductsJSON.ranked_products, null, 2));
-
-  //console.log(rankedProductsJSON);
-  res.json(rankedProductsJSON.ranked_products);
 });
 
 const mergeProperties = (obj1, obj2) => {
