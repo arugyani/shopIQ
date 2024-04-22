@@ -10,6 +10,7 @@ import { fetchProducts, fetchQuestions } from "@/api/useFetch";
 export interface HistoryState {
   historyList: HistoryObject[];
   currentHistoryId: string;
+  currentProductId: string;
   questionsExpanded: boolean;
   questionStatus: "idle" | "loading" | "failed";
   productStatus: "idle" | "loading" | "failed";
@@ -18,6 +19,7 @@ export interface HistoryState {
 const initialState: HistoryState = {
   historyList: [],
   currentHistoryId: "",
+  currentProductId: "",
   questionsExpanded: true,
   questionStatus: "idle",
   productStatus: "idle",
@@ -145,6 +147,13 @@ export const historySlice = createSlice({
       action: PayloadAction<{ historyId: string }>
     ) => {
       state.currentHistoryId = action.payload.historyId;
+      state.currentProductId = "";
+    },
+    updateCurrentProductId: (
+      state,
+      action: PayloadAction<{ productId: string }>
+    ) => {
+      state.currentProductId = action.payload.productId;
     },
     setQuestionsExpanded: (state, action: PayloadAction<boolean>) => {
       state.questionsExpanded = action.payload;
@@ -196,16 +205,16 @@ export const historySlice = createSlice({
         state.productStatus = "idle";
         const historyId = action.payload.historyId;
         if (historyId) {
-          state.historyList = state.historyList = state.historyList.map(
-            (historyObj) => {
-              if (historyObj.id == historyId) {
-                const updatedHistoryObj = historyObj;
-                updatedHistoryObj.products = action.payload.products;
-                return updatedHistoryObj;
-              }
-              return historyObj;
+          state.historyList = state.historyList.map((historyObj) => {
+            if (historyObj.id == historyId) {
+              const updatedHistoryObj = historyObj;
+              updatedHistoryObj.products = action.payload.products;
+              return updatedHistoryObj;
             }
-          );
+            return historyObj;
+          });
+
+          localStorage.setItem("history", JSON.stringify(state.historyList));
         }
       })
       .addCase(productsAsync.rejected, (state) => {
@@ -225,6 +234,7 @@ export const {
   removeProduct,
   updateProduct,
   updateCurrentHistoryId,
+  updateCurrentProductId,
   setQuestionsExpanded,
 } = historySlice.actions;
 export default historySlice.reducer;
@@ -248,20 +258,37 @@ export const questionsAsync = createAsyncThunk(
 
 export const productsAsync = createAsyncThunk(
   "products/fetchProducts",
-  async (query: { body: string; historyId: string }) => {
-    const response = await fetchProducts(JSON.parse(query.body));
+  async (query: {
+    query: string;
+    body: MultipleChoiceObject[];
+    historyId: string;
+  }) => {
+    const response = await fetchProducts(
+      query.query,
+      JSON.stringify(query.body)
+    );
     return { products: response, historyId: query.historyId };
   }
 );
 
 export const selectHistory = (state: RootState) => state.history.historyList;
+export const selectCurrentHistoryId = (state: RootState) =>
+  state.history.currentHistoryId;
+export const selectCurrentProductId = (state: RootState) =>
+  state.history.currentProductId;
+export const selectCurrentProduct = (state: RootState) => {
+  const CurrentProduct = state.history.historyList
+    .find((historyObj) => historyObj.id == state.history.currentHistoryId)
+    ?.products.find((product) => product.id == state.history.currentProductId);
+  if (CurrentProduct) {
+    return CurrentProduct;
+  } else return {} as ProductObject;
+};
+
 export const selectQuestionStatus = (state: RootState) =>
   state.history.questionStatus;
 export const selectProductStatus = (state: RootState) =>
   state.history.productStatus;
-
-export const selectCurrentHistoryId = (state: RootState) =>
-  state.history.currentHistoryId;
 
 export const selectCurrentQuery = (state: RootState) => {
   const currentHistoryObj = state.history.historyList.find(
@@ -275,6 +302,7 @@ export const selectCurrentProducts = (state: RootState) => {
   const CurrentProducts = state.history.historyList.find(
     (historyObj) => historyObj.id == state.history.currentHistoryId
   )?.products;
+
   if (CurrentProducts) {
     return CurrentProducts;
   } else return [];

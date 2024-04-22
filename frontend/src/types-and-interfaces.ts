@@ -6,17 +6,36 @@ export interface HistoryObject {
   products: ProductObject[];
 }
 
+// export interface ProductObject {
+//   id: string;
+//   title: string;
+//   imgLink: string;
+//   bullets: string[];
+//   description: string | null;
+//   reviews: string[];
+//   price: string;
+//   reviewScore: string;
+//   numReviews: string;
+//   pros: { name: string }[];
+//   cons: { name: string }[];
+// }
+
 export interface ProductObject {
   id: string;
   title: string;
-  imgLink: string;
   bullets: string[];
-  description: string | null;
-  reviews: string[];
+  pros: ProConType;
+  cons: ProConType;
+  prodLink: string;
+  imgLink: string;
   price: string;
-  reviewScore: string;
-  numReviews: string;
+  given_score: string;
+  reviews: string[];
 }
+
+export type ProConType = {
+  [key: string]: string;
+};
 
 /* MULTIPLE CHOICE */
 

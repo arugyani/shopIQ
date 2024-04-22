@@ -46,6 +46,7 @@ const AnswerUI: FC<AnswerUIProps> = ({ option, id }) => {
             }
           }
         });
+
         dispatch(
           updateQuestion({
             historyId: currentHistoryId,

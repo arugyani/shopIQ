@@ -11,7 +11,7 @@ const fetchQuestions = async (
 
   try {
     const response = await fetch(
-      `https://shopiq.azurewebsites.net/search/${query}`,
+      `http://localhost:3000/search/${query}`,
       requestOptions
     );
     const result: MultipleChoiceObject[] = await response.json();
@@ -21,17 +21,25 @@ const fetchQuestions = async (
     throw error;
   }
 };
-const fetchProducts = async (body: JSON): Promise<ProductObject[]> => {
+
+const fetchProducts = async (
+  query: string,
+  body: string
+): Promise<ProductObject[]> => {
   const requestOptions: RequestInit = {
     method: "POST",
     mode: "cors",
     redirect: "follow",
+    body,
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   try {
-    console.log(body); // avoid TypeScript error for now
+    // console.log(body); // avoid TypeScript error for now
     const response = await fetch(
-      "http://localhost:3000/recommendations",
+      `http://localhost:3000/recommendations/${query}`,
       requestOptions
     );
 
