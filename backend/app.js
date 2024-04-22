@@ -16,6 +16,7 @@ const port = process.env.PORT || 3000;
 
 const searchRouter = require("./src/routes/searchRoutes");
 const recommendationRoute = require("./src/routes/recommendationRoute");
+
 app.use(express.json());
 app.use(cors());
 

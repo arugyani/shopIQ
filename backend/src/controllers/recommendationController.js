@@ -1,12 +1,23 @@
 const searchService = require("../services/searchService");
+const otherService = require("../services/otherService");
 const asyncHandler = require("express-async-handler");
 const scrapeFilter = require("../services/scrape_filers");
 const input_filters = require("../services/input_filters");
+const { jsonrepair } = require("jsonrepair");
 
 const getProductList = asyncHandler(async (req, res) => {
   const questionResponses = await req.body;
   const { query } = await req.params;
   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
+  console.log(JSON.stringify(questionResponses));
+  const otherHandle = await otherService.getOtherLLMResponse(questionResponses);
+  
+  const invalidIDs = getInvalidIds(otherHandle);
+
+  if(invalidIDs.length !== 0){
+    return res.status(400).json({message: `Invalid other response at ids: ${invalidIDs}`});
+  }
+
 
   const prompt1 = `TASK: "Your task is to analyze user input provided in JSON format, which includes a series of questions and their answers.
   Based on this information, you will generalize and make selections for product filters that best match the user's criteria.
@@ -26,11 +37,14 @@ const getProductList = asyncHandler(async (req, res) => {
   \n###FILTERS###\n${JSON.stringify(filtersJson)}
  `;
   let selectedFiltersJSON = null;
+
   for (let i = 0; i < 5; i++) {
     try {
       const selectedFilters = await searchService.getLLMResponse(prompt1);
       const selectedFiltersProcessed = preprocessJSON(selectedFilters);
-      selectedFiltersJSON = JSON.parse(selectedFiltersProcessed);
+      const repairJSON = jsonrepair(selectedFiltersProcessed);
+      selectedFiltersJSON = JSON.parse(repairJSON);
+
       if (
         Object.values(selectedFiltersJSON).every((value) =>
           Array.isArray(value)
@@ -102,10 +116,11 @@ const getProductList = asyncHandler(async (req, res) => {
       Product JSON:\n ${JSON.stringify(productsJSON)}`;
       const rankedProducts = await searchService.getLLMResponse(prompt2);
       const rankedProductsProcessed = preprocessJSON(rankedProducts);
+      const repairedProductJSON = jsonrepair(rankedProductsProcessed);
       console.log("ranked products");
       console.log(rankedProducts);
       console.log(i);
-      rankedProductsJSON = JSON.parse(rankedProductsProcessed);
+      rankedProductsJSON = JSON.parse(repairedProductJSON);
 
       break;
     } catch (error) {
@@ -113,7 +128,6 @@ const getProductList = asyncHandler(async (req, res) => {
     }
   }
 
-  const firstArray = rankedProductsJSON.ranked_products;
 
   productsJSON.forEach((secondObj) => {
     const index = rankedProductsJSON.ranked_products.findIndex(
@@ -123,13 +137,8 @@ const getProductList = asyncHandler(async (req, res) => {
       mergeProperties(rankedProductsJSON.ranked_products[index], secondObj);
     }
   });
-  const ranked_products_merged = {
-    ranked_products: rankedProductsJSON.ranked_products,
-  };
-
   console.log(JSON.stringify(rankedProductsJSON.ranked_products, null, 2));
 
-  //console.log(rankedProductsJSON);
   res.json(rankedProductsJSON.ranked_products);
 });
 
@@ -146,6 +155,18 @@ const preprocessJSON = (jsonString) => {
   let string_without_ticks = lines.join("\n");
 
   return string_without_ticks;
+};
+
+const getInvalidIds = (jsonArray) => {
+  const invalidIds = [];
+  
+  jsonArray.forEach(obj => {
+    if (obj.valid === false) {
+      invalidIds.push(obj.id);
+    }
+  });
+  
+  return invalidIds;
 };
 
 module.exports = {

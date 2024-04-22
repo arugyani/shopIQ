@@ -2,6 +2,9 @@ const searchService = require("../services/searchService");
 const asyncHandler = require("express-async-handler");
 const scrapeFilter = require("../services/scrape_filers");
 const input_filters = require("../services/input_filters");
+const { jsonrepair } = require("jsonrepair");
+
+
 const getQuestions = asyncHandler(async (req, res) => {
   const { query } = await req.params;
   console.log(query);
@@ -43,7 +46,8 @@ const getQuestions = asyncHandler(async (req, res) => {
     try {
       const llmResponse = await searchService.getLLMResponse(prompt);
       const processedllmResponse = removeticks(llmResponse);
-      llmResponseJSON = JSON.parse(processedllmResponse);
+      const repairedProcessedJSON = jsonrepair(processedllmResponse);
+      llmResponseJSON = JSON.parse(repairedProcessedJSON);
       console.log("success");
       break;
     } catch (error) {
