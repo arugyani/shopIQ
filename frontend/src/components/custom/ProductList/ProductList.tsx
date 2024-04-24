@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { LoadingSpinner } from "../../ui/LoadingSpinner";
 import { ProductObject } from "@/types-and-interfaces";
 import {
@@ -26,7 +26,14 @@ const Product: FC<ProductProps> = ({ product }) => {
   const dispatch = useAppDispatch();
 
   const { title, imgLink, price, reviews } = product;
-  const quality = reviews[0].split("(")[0].trim();
+
+  const quality = useMemo(() => {
+    if (reviews) {
+      return reviews[0].split("(")[0].trim();
+    } else {
+      return "";
+    }
+  }, [reviews]);
 
   const handleClick = () => {
     dispatch(updateCurrentProductId({ productId: product.id }));
