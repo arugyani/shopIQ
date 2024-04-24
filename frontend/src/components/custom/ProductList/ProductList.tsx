@@ -27,7 +27,7 @@ const Product: FC<ProductProps> = ({ product }) => {
   const { title, imgLink, price, reviews } = product;
 
   const quality = useMemo(() => {
-    if (reviews) {
+    if (reviews && reviews.length !== 0) {
       return reviews[0].split("(")[0].trim();
     } else {
       return "";
