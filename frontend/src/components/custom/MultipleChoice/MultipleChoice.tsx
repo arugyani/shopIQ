@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/button";
 import { MultipleChoiceObject, AnswerType } from "@/types-and-interfaces";
 import { FC } from "react";
+import InfoBlurb from "../InfoBlurb";
 
 interface MultipleChoiceProps {
   data: MultipleChoiceObject;
@@ -65,7 +66,7 @@ const AnswerUI: FC<AnswerUIProps> = ({ option, id }) => {
 };
 
 const MultipleChoice: FC<MultipleChoiceProps> = ({ data }) => {
-  const { id, question, answers } = data;
+  const { id, question, answers, questionInfo } = data;
 
   const dispatch = useAppDispatch();
   const currentHistoryId = useAppSelector(selectCurrentHistoryId);
@@ -90,7 +91,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ data }) => {
 
   return (
     <div className='py-4 rounded w-full'>
-      <p className='font-medium text-md mb-4'>{question}</p>
+      <p className='flex gap-1 font-medium text-md mb-4'>{question} {questionInfo ? <InfoBlurb info={ questionInfo as string }/>:<></>}</p>
       <div className='my-2 flex gap-2'>
         {answers.map((option, index) => {
           return <AnswerUI key={index} option={option} id={id} />;
