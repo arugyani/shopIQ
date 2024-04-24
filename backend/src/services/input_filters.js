@@ -3,31 +3,40 @@ const scape_products = require("./scrape_products");
 async function input_filters(browser, page, filtersJson, input, query) {
   concatenatedString = await concatValuesWithNumbers(input);
   if (concatenatedString.trim().length !== 0) {
-    concatenatedString = query + " " + concatenatedString;
+    concatenatedString = query + " with" + concatenatedString;
   }
   //await page.type('input[type="search"]', concatenatedString);
-  const inputElement = await page.$(
-    "#sh-h-input__root > input.sh-h-input__search-form"
-  );
-  if (concatenatedString !== null && concatenatedString !== query) {
-    //console.log(concatenatedString);
-    await inputElement.type(concatenatedString);
-    await inputElement.press("Enter");
-    await page.waitForNavigation({ waitUntil: "networkidle0" });
+  const inputSelector = "#sh-h-input__root > input.sh-h-input__search-form";
+  try {
+    await page.waitForSelector(inputSelector);
+    const inputElement = await page.$(inputSelector);
+
+    if (concatenatedString !== null && concatenatedString !== query) {
+      console.log(concatenatedString);
+      await inputElement.type(concatenatedString);
+      await inputElement.press("Enter");
+      await page.waitForNavigation({ waitUntil: "networkidle0" });
+    }
+  } catch (error) {
+    console.error(
+      "Error occurred while interacting with input element:",
+      error
+    );
   }
+
   for (const [filterCategory, filterOptions] of Object.entries(input)) {
-    //console.log("filter options");
+    console.log("filter options");
     for (const filterOption of filterOptions) {
       let found = false;
       const filterHandles = await page.$$(".sh-dr__restricts > div");
-      //console.log("filterHandles");
+      console.log("filterHandles");
       for (const filterHandle of filterHandles) {
         const categoryText = await page.evaluate(
           //get the text content
           (el) => el.textContent,
           filterHandle
         );
-        //console.log("filterHandle");
+        console.log("filterHandle");
         if (categoryText.includes(filterCategory)) {
           //check if the correct filter list is being iterated through
           const optionSelector = `xpath/.//a[contains(., '${filterOption}')]`; //looks for the correct option
@@ -38,11 +47,24 @@ async function input_filters(browser, page, filtersJson, input, query) {
             });
 
             const optionHandles = await filterHandle.$$(optionSelector);
-            //console.log("optionHandles");
+            console.log("optionHandles");
             if (optionHandles.length > 0) {
-              await optionHandles[0].click();
+              try {
+                await Promise.race([
+                  optionHandles[0].click(),
+                  new Promise((resolve, reject) =>
+                    setTimeout(
+                      () => reject(new Error("Click action timed out")),
+                      5000
+                    )
+                  ), // Adjust the timeout duration as needed
+                ]);
+              } catch (error) {
+                console.error("Error occurred during click action:", error);
+                break;
+              }
               found = true;
-              //console.log("prenav");
+              console.log("prenav");
               await page.waitForNavigation({ waitUntil: "networkidle0" });
               console.log(
                 `The '${filterCategory}: ${filterOption}' was found.`

@@ -4,7 +4,10 @@ const scrapeFilter = require("../services/scrape_filers");
 const input_filters = require("../services/input_filters");
 
 const getProductList = asyncHandler(async (req, res) => {
+  console.log("reccomendataion");
   const questionResponses = await req.body;
+  console.log("body");
+  console.log(JSON.stringify(questionResponses));
   const { query } = await req.params;
   const { browser, page, filtersJson } = await scrapeFilter.scrapeFilter(query);
 
@@ -21,6 +24,10 @@ const getProductList = asyncHandler(async (req, res) => {
       'Filter Category': ['Selected value'],
       ...
     }
+    -ensure that the filter category and the selected value can be found in the filters given
+    -ensure that you are condidering the question and the selected answer
+    -if something explicit like size is stated dont ignore and match to the best of your abilities
+    -if price range or budget is mentioned include it like 'Price Range': [ 'price range' ]
   "### questions and Answers ###"\n,
   ${JSON.stringify(questionResponses)},
   \n###FILTERS###\n${JSON.stringify(filtersJson)}
@@ -36,7 +43,6 @@ const getProductList = asyncHandler(async (req, res) => {
           Array.isArray(value)
         )
       ) {
-        console.log();
         break;
       }
     } catch (error) {
@@ -95,6 +101,7 @@ const getProductList = asyncHandler(async (req, res) => {
       The pros and cons should be a category then a ranking.
       Give no more than 3 bullets.
       All values should be strings.
+      Dont choose a brand if unecessary
       All keys should have corresponding non-null values.
       Follow the output format JSON exactly. Do not leave any trailing commas at the end of and values in each key.
       When there is a quote in the JSON value add a backslash so the JSON is parseable. \n
@@ -113,8 +120,6 @@ const getProductList = asyncHandler(async (req, res) => {
     }
   }
 
-  const firstArray = rankedProductsJSON.ranked_products;
-
   productsJSON.forEach((secondObj) => {
     const index = rankedProductsJSON.ranked_products.findIndex(
       (firstObj) => firstObj.id === secondObj.id
@@ -126,9 +131,7 @@ const getProductList = asyncHandler(async (req, res) => {
   const ranked_products_merged = {
     ranked_products: rankedProductsJSON.ranked_products,
   };
-
   console.log(JSON.stringify(rankedProductsJSON.ranked_products, null, 2));
-
   //console.log(rankedProductsJSON);
   res.json(rankedProductsJSON.ranked_products);
 });
