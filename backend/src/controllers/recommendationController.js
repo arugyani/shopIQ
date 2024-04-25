@@ -133,7 +133,8 @@ const getProductList = asyncHandler(async (req, res) => {
     //console.log(rankedProductsJSON);
     res.json(rankedProductsJSON.ranked_products);
   } catch (e) {
-    return { statusCode: 500, error: e.message };
+    console.error(e.message);
+    res.status(500).send({ error: e.message });
   }
 });
 
