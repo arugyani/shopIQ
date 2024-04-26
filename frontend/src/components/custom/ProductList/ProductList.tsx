@@ -16,6 +16,7 @@ import {
 } from "@/app/features/historySlice";
 import { ArrowLeftCircle } from "lucide-react";
 import ProConList from "./ProConList";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 interface ProductProps {
   product: ProductObject;
@@ -41,18 +42,18 @@ const Product: FC<ProductProps> = ({ product }) => {
   return (
     <>
       <div
-        className='border border-gray-300 shadow-lg rounded-lg px-4 py-8 w-full h-full flex flex-col items-center justify-center mx-auto my-8 hover:bg-neutral-100 transition-color cursor-pointer'
+        className="border border-gray-300 shadow-lg rounded-lg px-4 py-8 w-full h-full flex flex-col items-center justify-center mx-auto my-8 hover:bg-neutral-100 transition-color cursor-pointer"
         onClick={handleClick}
       >
-        <h1 className='text-xl font-bold mb-10 text-center'>{title}</h1>
-        <div className='flex w-full flex-row justify-between items-center gap-4'>
+        <h1 className="text-xl font-bold mb-10 text-center">{title}</h1>
+        <div className="flex w-full flex-row justify-between items-center gap-4">
           {imgLink !== null && (
             <img
               src={imgLink}
               className={`mb-4 w-2/5 border-4 border-gray-400 rounded p-2`}
             />
           )}
-          <div className='flex-1 grow flex flex-col justify-center items-center'>
+          <div className="flex-1 grow flex flex-col justify-center items-center">
             <h1
               className={`hidden lg:inline bg-gray-800 text-white text-sm font-bold py-2 px-4 w-${
                 imgLink != null ? "full" : "1/2"
@@ -60,7 +61,7 @@ const Product: FC<ProductProps> = ({ product }) => {
             >
               {quality}
             </h1>
-            <h3 className='text-xl font-semibold'>{price}</h3>
+            <h3 className="text-xl font-semibold">{price}</h3>
           </div>
         </div>
       </div>
@@ -97,11 +98,22 @@ export const ProductList = () => {
   return currentProductId.length !== 0 ? (
     <ProductView />
   ) : (
-    <div className='relative mx-auto w-full h-fit grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center'>
+    <div className="relative mx-auto w-full h-fit grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center">
       {status === "loading" ? (
-        <LoadingSpinner className='text-gray-500' width={45} height={45} />
+        <LoadingSpinner
+          className="text-gray-500"
+          width={45}
+          height={45}
+        />
+      ) : status === "failed" ? (
+        <div className="flex w-full font-medium text-center justify-center my-4 pr-4 gap-3 items-center text-lg"><ExclamationTriangleIcon className="w-5 h-5"/>Failed to retrieve products.</div>
       ) : (
-        productList.map((product, i) => <Product key={i} product={product} />)
+        productList.map((product, i) => (
+          <Product
+            key={i}
+            product={product}
+          />
+        ))
       )}
     </div>
   );
@@ -115,10 +127,10 @@ export const ProductView = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className='flex flex-row p-8 border rounded-lg h-fit'>
-      <div className='basis-1/2 flex flex-col justify-center items-center px-4'>
+    <div className="flex flex-row p-8 border rounded-lg h-fit">
+      <div className="basis-1/2 flex flex-col justify-center items-center px-4">
         <div
-          className='flex my-2 gap-2 h-fit w-full text-gray-500 hover:underline hover:text-blue-400 cursor-pointer'
+          className="flex my-2 gap-2 h-fit w-full text-gray-500 hover:underline hover:text-blue-400 cursor-pointer"
           onClick={() => {
             dispatch(updateCurrentProductId({ productId: "" }));
           }}
@@ -132,26 +144,32 @@ export const ProductView = () => {
           />
         )}
 
-        <ul className='list-disc mx-4 w-full'>
+        <ul className="list-disc mx-4 w-full">
           {bullets.map((bullet, index) => (
-            <li className='my-4' key={index}>
+            <li
+              className="my-4"
+              key={index}
+            >
               {bullet}
             </li>
           ))}
         </ul>
       </div>
-      <div className='basis-1/2 p-4 flex flex-col gap-8 text-center justify-start items-center'>
-        <div className='flex flex-row'>
+      <div className="basis-1/2 p-4 flex flex-col gap-8 text-center justify-start items-center">
+        <div className="flex flex-row">
           <a
-            className='blue-link text-lg font-bold mr-4 text-blue-500'
+            className="blue-link text-lg font-bold mr-4 text-blue-500"
             href={prodLink}
           >
             {title}
           </a>
-          <h3 className='text-lg font-light text-gray-500'>{price}</h3>
+          <h3 className="text-lg font-light text-gray-500">{price}</h3>
         </div>
-        <div className='flex flex-col mt-8 w-full items-center gap-2'>
-          <ProConList pros={pros} cons={cons} />
+        <div className="flex flex-col mt-8 w-full items-center gap-2">
+          <ProConList
+            pros={pros}
+            cons={cons}
+          />
         </div>
       </div>
     </div>
