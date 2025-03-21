@@ -1,34 +1,40 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import "./styles/App.css";
+import Header from "./components/custom/Header";
+import SearchBar from "./components/custom/SearchBar";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import SearchHistory from "./components/custom/SearchHistory";
+import { ProductList } from "./components/custom/ProductList/ProductList";
+import { selectHistory } from "./app/features/historySlice";
+import { useAppSelector } from "./app/hooks";
+import MultipleChoiceList from "./components/custom/MultipleChoice/MultipleChoiceList";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const historyList = useAppSelector(selectHistory);
 
   return (
-    <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='app px-10 h-screen flex flex-col bg-[#faf9f6]'>
+      <Header />
+      <ResizablePanelGroup direction='horizontal' className='overflow-auto'>
+        <ResizablePanel defaultSize={25} className='overflow-auto'>
+          <SearchHistory history={historyList} />
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel
+          defaultSize={75}
+          className='pl-4 flex flex-col overflow-y-auto'
+        >
+          <div className='flex-auto overflow-y-auto mb-8 w-full pr-4'>
+            <SearchBar />
+            <MultipleChoiceList />
+            <ProductList />
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </div>
   );
 }
 
