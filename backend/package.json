@@ -4,7 +4,7 @@
   "description": "shopIQ",
   "main": "app.js",
   "scripts": {
-    "test": "./node_modules/nodemon/bin/nodemon.js app.js"
+    "start": "./node_modules/nodemon/bin/nodemon.js app.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,12 @@
   },
   "homepage": "https://github.com/arugyani/shopIQ#readme",
   "dependencies": {
+    "@google/generative-ai": "^0.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "node-fetch": "^2.7.0",
     "puppeteer": "^22.4.0"
   },
   "devDependencies": {

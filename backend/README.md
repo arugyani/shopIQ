@@ -12,5 +12,5 @@ docker run -d -p 8090:5000 shopiq_backend
 # To run in dev environemt
 ```bash
 npm install
-npm run test
+npm start
 ```
